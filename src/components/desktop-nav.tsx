@@ -53,7 +53,7 @@ export function DesktopNav({ items, children }: MainNavProps) {
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid gap-3 p-6 w-full md:w-[500px] lg:w-[650px] lg:grid-cols-[.75fr_1fr]">
+                      <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                         {!item.hideNavMenuLink && (
                           <li className="row-span-3">
                             <NavigationMenuLink asChild>
@@ -100,21 +100,6 @@ export function DesktopNav({ items, children }: MainNavProps) {
         <span className="font-sans font-semibold">Menu</span>
       </button>
 
-      <div className="md:hidden lg:hidden xl:hidden items-center space-x-4 pl-10">
-        <Link
-          href="/entrar"
-          className={cn(
-            buttonVariants({ variant: "default", size: "sm" }),
-            "px-4"
-          )}
-        >
-          Acessar minha conta{" "}
-          <span className="md:inline-block">
-            <Icons.login className="w-4 h-4 ml-1" />
-          </span>
-        </Link>
-      </div>
-
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
@@ -132,12 +117,12 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-200 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}
         >
-          <div className="text-sm font-semibold leading-none">{title}</div>
+          <div className="text-sm font-medium leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>

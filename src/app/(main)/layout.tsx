@@ -17,7 +17,7 @@ export default async function MainLayout({ children }: MainLayoutProps) {
   return (
     <section className="flex min-h-screen flex-col">
       <header className="container z-40">
-        <div className="flex h-20 items-center justify-between py-6">
+        <div className="flex h-20 items-center justify-between">
           <DesktopNav items={navConfig.mainNav} />
         </div>
       </header>
