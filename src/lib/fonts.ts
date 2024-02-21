@@ -2,6 +2,7 @@ import {
   JetBrains_Mono as FontMono,
   Inter as FontSans,
   Montserrat,
+  Raleway
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -18,6 +19,11 @@ export const fontMono = FontMono({
 export const fontMontserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
+});
+
+export const fontRaleway = Raleway({
+  subsets: ["latin"],
+  variable: "--font-raleway",
 });
 
 export const fontHeading = localFont({

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { navConfig } from "@/config/nav";
 
@@ -6,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 import { Icons } from "@/components/icons";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { DesktopNav } from "@/components/desktop-nav";
 
 interface MainLayoutProps {
@@ -16,9 +17,55 @@ interface MainLayoutProps {
 export default async function MainLayout({ children }: MainLayoutProps) {
   return (
     <section className="flex min-h-screen flex-col">
-      <header className="container z-40">
+      <header className="container">
         <div className="flex h-20 items-center justify-between">
           <DesktopNav items={navConfig.mainNav} />
+
+          {/* <Link
+            href="/login"
+            className={cn(
+              buttonVariants({ variant: "default", size: "lg" }),
+              "px-4"
+            )}
+          >
+            Solicite uma demonstração
+          </Link> */}
+
+          <div
+            className={cn(
+              "hidden md:flex lg:flex xl:flex items-center space-x-4"
+            )}
+          >
+            <Button variant="default" size="lg" className="px-4">
+              Solicite uma Demonstração
+            </Button>
+
+            <Link
+              href="/entrar"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "px-4"
+              )}
+            >
+              Entrar
+              <Icons.login className="w-4 h-4 ml-2" />
+            </Link>
+          </div>
+
+          <div className="md:hidden lg:hidden xl:hidden items-center space-x-4 pl-10">
+            <Link
+              href="/entrar"
+              className={cn(
+                buttonVariants({ variant: "default", size: "sm" }),
+                "px-4"
+              )}
+            >
+              Acessar minha conta{" "}
+              <span className="md:inline-block">
+                <Icons.login className="w-4 h-4 ml-1" />
+              </span>
+            </Link>
+          </div>
         </div>
       </header>
 

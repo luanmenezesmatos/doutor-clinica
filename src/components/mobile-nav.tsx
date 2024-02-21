@@ -30,7 +30,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
               src="images/svg/logo.svg"
               alt="Logo"
               width="150"
-              height="35"
+              height="40"
             />
           </Link>
         </div>

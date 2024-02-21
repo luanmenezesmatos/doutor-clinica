@@ -31,8 +31,9 @@ export function DesktopNav({ items, children }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
-        <Image src="images/svg/logo.svg" alt="Logo" width="180" height="35" />
+        <Image src="images/svg/logo.svg" alt="Logo" width="150" height="40" />
       </Link>
+
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) =>
@@ -41,7 +42,7 @@ export function DesktopNav({ items, children }: MainNavProps) {
                 key={index}
                 href={item.disabled ? "#" : item.href || "#"}
                 className={cn(
-                  "flex items-center text-lg font-sans font-medium transition-colors hover:text-foreground/80 sm:text-sm",
+                  "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >

@@ -4,7 +4,7 @@ import "./globals.css";
 import { siteConfig } from "@/config/site";
 
 import { cn } from "@/lib/utils";
-import { fontHeading, fontMono, fontSans } from "@/lib/fonts";
+import { fontHeading, fontMono, fontSans, fontMontserrat, fontRaleway } from "@/lib/fonts";
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/react-query";
@@ -31,7 +31,9 @@ export default function RootLayout({
           "min-h-screen font-sans antialiased",
           fontSans.variable,
           fontMono.variable,
-          fontHeading.variable
+          fontHeading.variable,
+          fontMontserrat.variable,
+          fontRaleway.variable,
         )}
       >
         <QueryClientProvider client={queryClient}>
