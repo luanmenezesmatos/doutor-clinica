@@ -36,14 +36,14 @@ export default async function MainLayout({ children }: MainLayoutProps) {
               "hidden md:flex lg:flex xl:flex items-center space-x-4"
             )}
           >
-            <Button variant="default" size="lg" className="px-4">
+            <Button variant="default" size="sm" className="px-4">
               Solicite uma Demonstração
             </Button>
 
             <Link
               href="/entrar"
               className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
+                buttonVariants({ variant: "outline", size: "sm" }),
                 "px-4"
               )}
             >

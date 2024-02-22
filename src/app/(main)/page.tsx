@@ -14,8 +14,10 @@ export default function Home() {
     <>
       <main>
         <Hero />
-        <FeatureOne />
-        <FeatureTwo />
+        <Features />
+        <Testimonials />
+        <Migration />
+        <Separator />
       </main>
     </>
   );
@@ -60,7 +62,7 @@ async function Hero() {
   );
 }
 
-async function FeatureOne() {
+async function Features() {
   return (
     <section className="py-12">
       <div
@@ -119,7 +121,7 @@ async function FeatureOne() {
   );
 }
 
-async function FeatureTwo() {
+async function Testimonials() {
   type FeatureText = {
     avatar: string;
     author: string;
@@ -178,7 +180,10 @@ async function FeatureTwo() {
           <div className="mt-6 grid gap-6 md:mt-12 md:grid-cols-4">
             {featureText.map(
               ({ avatar, author, title, description }, index) => (
-                <div className="flex flex-col justify-between gap-6 rounded-lg border p-6 transition-all hover:-mt-2">
+                <div
+                  className="flex flex-col justify-between gap-6 rounded-lg border p-6 transition-all hover:-mt-2"
+                  key={index}
+                >
                   <div className="grid gap-4">
                     <div className="flex items-center gap-2">
                       <Avatar>
@@ -208,5 +213,58 @@ async function FeatureTwo() {
         </div>
       </div>
     </section>
+  );
+}
+
+async function Migration() {
+  return (
+    <div className="py-12">
+      <div
+        className={cn(
+          "max-w-5xl mx-auto",
+          "p-6 sm:p-8",
+          "grid md:grid-cols-2 md:gap-12 items-stretch"
+        )}
+      >
+        <div className="not-prose border relative rounded-lg overflow-hidden flex">
+          <Image
+            src="/images/svg/renders/feature-three.svg"
+            alt="placeholder"
+            className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out"
+            layout="fill"
+          />
+        </div>
+        <div className="flex flex-col gap-6 py-8">
+          <h3 className="!my-0 font-bold text-4xl">
+            Migrar para o Doutor Clínica é fácil e seguro!
+          </h3>
+          <p className="leading-[1.4]">
+            Muitas clínicas já trouxeram seus dados para o Clínica nas Nuvens. O
+            processo de migração de sistema é feito com total segurança,
+            agilidade e sem interferir na rotina da equipe!
+          </p>
+          <div className="not-prose flex items-center gap-2">
+            <Button className="w-fit" asChild>
+              <Link href="#">Solicitar migração</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+async function Separator() {
+  return (
+    <div className="py-12">
+      <div className={cn("max-w-5xl mx-auto", "p-6 sm:p-8", "text-center")}>
+        <h1 className="!my-0 font-bold text-4xl">
+          <Balancer>
+            Simplifique a gestão da sua clínica com funcionalidades
+            inteligentes.
+          </Balancer>
+        </h1>
+      </div>
+    </div>
   );
 }
