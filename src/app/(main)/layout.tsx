@@ -60,9 +60,9 @@ export default async function MainLayout({ children }: MainLayoutProps) {
                 "px-4"
               )}
             >
-              Acessar minha conta{" "}
+              Solicite uma Demonstração{" "}
               <span className="md:inline-block">
-                <Icons.login className="w-4 h-4 ml-1" />
+                <Icons.arrowRight className="w-4 h-4 ml-1" />
               </span>
             </Link>
           </div>

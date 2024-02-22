@@ -3,7 +3,11 @@ import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 
+import Balancer from "react-wrap-balancer";
+
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Home() {
   return (
@@ -11,6 +15,7 @@ export default function Home() {
       <main>
         <Hero />
         <FeatureOne />
+        <FeatureTwo />
       </main>
     </>
   );
@@ -25,7 +30,7 @@ async function Hero() {
             <p className="font-bold text-lg pb-2">Sistema para clínicas</p>
 
             <div className="space-y-8">
-              <h1 className="text-6xl font-bold tracking-tight">
+              <h1 className="text-5xl lg:6xl font-bold">
                 O software <br /> que resolve
               </h1>
 
@@ -70,7 +75,7 @@ async function FeatureOne() {
           <h3 className="!my-0 font-bold text-4xl">
             O que pode acontecer se você utilizar o{" "}
             <span className="font-extrabold">
-              o software para clínica errado?
+              software para clínica errado?
             </span>
           </h3>
           <ul className="leading-[1.4]">
@@ -101,13 +106,105 @@ async function FeatureOne() {
             </Button>
           </div>
         </div>
-        <div className="not-prose border relative rounded-lg overflow-hidden flex">
+        <div className="not-prose border relative rounded-lg flex">
           <Image
-            src="https://www.meuconsultorio.com/wp-content/uploads/2021/02/7-dicas-para-organizar-uma-clinica-medica.jpg"
+            src="/images/svg/renders/feature-one.svg"
             alt="placeholder"
-            className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out"
-            layout="fill"
+            className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out rounded-lg"
+            fill
           />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+async function FeatureTwo() {
+  type FeatureText = {
+    avatar: string;
+    author: string;
+    title: string;
+    description: string;
+    href?: string;
+  };
+
+  const featureText: FeatureText[] = [
+    {
+      avatar: "/images/svg/avatars/avatar-01.png",
+      author: "Fulano",
+      title: "Lorem Ipsum",
+      description:
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    },
+    {
+      avatar: "/images/svg/avatars/avatar-01.png",
+      author: "Fulano",
+      title: "Lorem Ipsum",
+      description:
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    },
+    {
+      avatar: "/images/svg/avatars/avatar-01.png",
+      author: "Fulano",
+      title: "Lorem Ipsum",
+      description:
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    },
+    {
+      avatar: "/images/svg/avatars/avatar-01.png",
+      author: "Fulano",
+      title: "Lorem Ipsum",
+      description:
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    },
+  ];
+
+  return (
+    <section className="py-12">
+      <div
+        className={cn(
+          "max-w-5xl mx-auto",
+          "p-6 sm:p-8",
+          "not-prose",
+          "font-sans"
+        )}
+      >
+        <div className="flex flex-col">
+          <h3 className="text-4xl font-bold">
+            <Balancer>
+              Opiniões reais de quem <br /> usa nosso software médico
+            </Balancer>
+          </h3>
+          <div className="mt-6 grid gap-6 md:mt-12 md:grid-cols-4">
+            {featureText.map(
+              ({ avatar, author, title, description }, index) => (
+                <div className="flex flex-col justify-between gap-6 rounded-lg border p-6 transition-all hover:-mt-2">
+                  <div className="grid gap-4">
+                    <div className="flex items-center gap-2">
+                      <Avatar>
+                        {/* <AvatarImage
+                          src={avatar}
+                          alt={author}
+                          className="h-full w-full object-cover"
+                        /> */}
+                        <AvatarFallback className="bg-primary text-white">
+                          FL
+                        </AvatarFallback>
+                      </Avatar>
+
+                      <h5 className="font-semibold text-primary text-md">
+                        {author}
+                      </h5>
+                    </div>
+                    <h4 className="font-medium text-primary text-md">
+                      {title}
+                    </h4>
+                    <p className="text-sm opacity-75">{description}</p>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
         </div>
       </div>
     </section>
