@@ -56,7 +56,7 @@ export default async function MainLayout({ children }: MainLayoutProps) {
             <Link
               href="/entrar"
               className={cn(
-                buttonVariants({ variant: "default", size: "sm" }),
+                buttonVariants({ variant: "default", size: "lg" }),
                 "px-4"
               )}
             >
