@@ -52,7 +52,7 @@ export default async function MainLayout({ children }: MainLayoutProps) {
             </Link>
           </div>
 
-          <div className="md:hidden lg:hidden xl:hidden items-center space-x-4 pl-10">
+          <div className="md:hidden lg:hidden xl:hidden items-center space-x-4 pl-5">
             <Link
               href="/entrar"
               className={cn(
