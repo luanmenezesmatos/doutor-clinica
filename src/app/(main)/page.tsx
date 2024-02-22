@@ -231,7 +231,7 @@ async function Migration() {
             src="/images/svg/renders/feature-three.svg"
             alt="placeholder"
             className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out"
-            layout="fill"
+            fill
           />
         </div>
         <div className="flex flex-col gap-6 py-8">
