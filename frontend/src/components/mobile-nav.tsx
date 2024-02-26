@@ -46,9 +46,9 @@ export function MobileNav({ items, children }: MobileNavProps) {
             </Link>
           ))}
 
-          <div className="flex flex-col items-start pt-4">
-            <Separator />
+          <Separator />
 
+          <div className="flex flex-col items-center pt-4">
             <Link
               href="/entrar"
               className={cn(
@@ -56,10 +56,8 @@ export function MobileNav({ items, children }: MobileNavProps) {
                 "px-4 w-[fit-content] mt-4"
               )}
             >
-              Solicite uma Demonstração{" "}
-              <span className="md:inline-block">
-                <Icons.arrowRight className="w-4 h-4 ml-1" />
-              </span>
+              Solicite uma Demonstração
+              <Icons.arrowRight className="w-4 h-4 ml-2" />
             </Link>
           </div>
         </nav>
