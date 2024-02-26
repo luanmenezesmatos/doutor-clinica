@@ -334,7 +334,7 @@ async function FeatureTwo() {
           "grid md:grid-cols-2 md:gap-12 items-stretch"
         )}
       >
-        <div className="not-prose border relative rounded-lg overflow-hidden flex">
+        <div className="border relative rounded-lg overflow-hidden flex">
           <Image
             src="/images/svg/renders/feature-three.svg"
             alt="placeholder"
