@@ -14,10 +14,13 @@ export default function Home() {
     <>
       <main>
         <Hero />
-        <Features />
+        <Demo />
         <Testimonials />
         <Migration />
         <Separator />
+        <FeatureOne />
+        <FeatureTwo />
+        <FeatureThree />
       </main>
     </>
   );
@@ -62,7 +65,7 @@ async function Hero() {
   );
 }
 
-async function Features() {
+async function Demo() {
   return (
     <section className="py-12">
       <div
@@ -80,7 +83,7 @@ async function Features() {
               software para clínica errado?
             </span>
           </h3>
-          <ul className="leading-[1.4]">
+          <ul className="leading-[1.4] font-medium">
             <li>
               &#8226; A clínica fica desorganizada, faltam processos
               padronizados;
@@ -110,7 +113,7 @@ async function Features() {
         </div>
         <div className="not-prose border relative rounded-lg flex">
           <Image
-            src="/images/svg/renders/feature-one.svg"
+            src="/images/jpg/renders/woman-doctor.jpg"
             alt="placeholder"
             className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out rounded-lg"
             fill
@@ -264,6 +267,163 @@ async function Separator() {
             inteligentes.
           </Balancer>
         </h1>
+      </div>
+    </div>
+  );
+}
+
+async function FeatureOne() {
+  return (
+    <section className="py-12">
+      <div
+        className={cn(
+          "max-w-5xl mx-auto",
+          "p-6 sm:p-8",
+          "grid md:grid-cols-2 md:gap-12 items-stretch",
+          "font-sans"
+        )}
+      >
+        <div className="flex flex-col py-8 gap-6">
+          <h3 className="!my-0 font-bold text-4xl">Prontuário Eletrônico</h3>
+          <p className={cn("leading-[1.4]", "text-md")}>
+            Chega de prontuários de papel. Com o Prontuário Eletrônico, sua
+            clínica torna todo o processo muito mais rápido, organizado e
+            eficiente.
+          </p>
+          <ul className="leading-[1.4] font-medium">
+            <li>&#8226; Todos os campos e ferramentas são configuráveis;</li>
+            <li>&#8226; Segurança total para salvar as informações;</li>
+            <li>&#8226; Melhor comunicação entre profissionais e pacientes;</li>
+            <li>
+              &#8226; Facilidade para solicitar exames e prescrever
+              medicamentos;
+            </li>
+            <li>
+              &#8226; Agilidade para criação de modelos de laudos e atestados.
+            </li>
+          </ul>
+          <div className="not-prose flex items-center gap-2">
+            <Button className="w-fit" asChild>
+              <Link href="/prontuario-eletronico">
+                Conheça todos os recursos
+                <Icons.arrowRight className="w-4 h-4 ml-1" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+        <div className="not-prose border relative rounded-lg flex">
+          <Image
+            src="/images/jpg/renders/woman-doctor.jpg"
+            alt="placeholder"
+            className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out rounded-lg"
+            fill
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+async function FeatureTwo() {
+  return (
+    <div className="py-12">
+      <div
+        className={cn(
+          "max-w-5xl mx-auto",
+          "p-6 sm:p-8",
+          "grid md:grid-cols-2 md:gap-12 items-stretch"
+        )}
+      >
+        <div className="not-prose border relative rounded-lg overflow-hidden flex">
+          <Image
+            src="/images/svg/renders/feature-three.svg"
+            alt="placeholder"
+            className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out"
+            fill
+          />
+        </div>
+        <div className="flex flex-col gap-6 py-8">
+          <h3 className="!my-0 font-bold text-4xl">Agenda Médica Online</h3>
+          <p className={cn("leading-[1.4]", "text-md")}>
+            Todos os seus compromissos, como consultas, lembretes e reuniões,
+            podem ser marcados e ajustados de maneira rápida e prática com a
+            agenda online do nosso sistema para clínicas.
+          </p>
+          <ul className="leading-[1.4] font-medium">
+            <li>&#8226; Gerenciamento de múltiplas agendas, em tempo real;</li>
+            <li>&#8226; Otimização do tempo para pacientes e profissionais;</li>
+            <li>
+              &#8226; Controle de disponibilidade e escala dos profissionais;
+            </li>
+            <li>&#8226; Central de agendamentos com sistema de Call Center;</li>
+            <li>
+              &#8226; Alterações simultâneas para um grande número de dados.
+            </li>
+          </ul>
+          <div className="not-prose flex items-center gap-2">
+            <Button className="w-fit" asChild>
+              <Link href="/agenda-medica">
+                Conheça todos os recursos
+                <Icons.arrowRight className="w-4 h-4 ml-1" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+async function FeatureThree() {
+  return (
+    <div className="py-12">
+      <div className={cn("max-w-5xl mx-auto", "p-6 sm:p-8")}>
+        <div className="not-prose flex items-center flex-col gap-6 font-sans">
+          <div className="text-center">
+            <h1 className="font-bold text-4xl mb-5">Controle Financeiro</h1>
+            <h2 className={cn("leading-[1.4]", "text-md", "max-w-2xl")}>
+              Nunca mais perca dinheiro! Nosso{" "}
+              <b className="font-semibold">sistema virtual para clínicas</b>{" "}
+              proporciona visão completa do seu financeiro. Saiba quem pagou,
+              quem está pendente, parcelamentos, fluxo de caixa e integração com
+              meios de pagamento.
+            </h2>
+          </div>
+          <ul className="leading-[1.4] font-medium">
+            <li>
+              &#8226; Controle total de fluxo de caixa, contas a pagar e
+              receber;
+            </li>
+            <li>&#8226; Gerenciamento de orçamentos e contratos;</li>
+            <li>
+              &#8226; Geração de boletos e links de pagamento para cartão de
+              crédito;
+            </li>
+            <li>
+              &#8226; Emissão simplificada de notas fiscais de produto e
+              serviço;
+            </li>
+            <li>&#8226; Integração completa com agenda e prontuário;</li>
+            <li>&#8226; Conciliação de extrato bancário.</li>
+          </ul>
+          <div className="my-8 overflow-hidden border rounded-lg md:rounded-xl">
+            <Image
+              className="cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out"
+              src="/images/webp/renders/doctor.webp"
+              width={700}
+              height={100}
+              alt="hero image"
+            />
+          </div>
+          <div className="not-prose flex items-center gap-2">
+            <Button className="w-fit" variant="outline" asChild>
+              <Link href="/controle-financeiro">
+                Conheça todos os recursos
+                <Icons.arrowRight className="w-4 h-4 ml-1" />
+              </Link>
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
