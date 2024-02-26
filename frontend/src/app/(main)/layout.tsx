@@ -56,11 +56,11 @@ export default async function MainLayout({ children }: MainLayoutProps) {
             <Link
               href="/entrar"
               className={cn(
-                buttonVariants({ variant: "default", size: "lg" }),
+                buttonVariants({ variant: "outline", size: "lg" }),
                 "px-4"
               )}
             >
-              Solicite uma Demonstração{" "}
+              Entrar{" "}
               <span className="md:inline-block">
                 <Icons.arrowRight className="w-4 h-4 ml-1" />
               </span>

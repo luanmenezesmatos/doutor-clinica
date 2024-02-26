@@ -4,10 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { NavItem } from "@/types";
+
 import { siteConfig } from "@/config/site";
+
 import { cn } from "@/lib/utils";
 import { useLockBody } from "@/hooks/use-lock-body";
+
 import { Icons } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 interface MobileNavProps {
   items: NavItem[];
@@ -40,6 +45,23 @@ export function MobileNav({ items, children }: MobileNavProps) {
               {item.title}
             </Link>
           ))}
+
+          <div className="flex flex-col items-start pt-4">
+            <Separator />
+
+            <Link
+              href="/entrar"
+              className={cn(
+                buttonVariants({ variant: "default", size: "lg" }),
+                "px-4 w-[fit-content] mt-4"
+              )}
+            >
+              Solicite uma Demonstração{" "}
+              <span className="md:inline-block">
+                <Icons.arrowRight className="w-4 h-4 ml-1" />
+              </span>
+            </Link>
+          </div>
         </nav>
         {children}
       </div>
