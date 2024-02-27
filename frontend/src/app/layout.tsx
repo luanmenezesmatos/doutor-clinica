@@ -12,10 +12,15 @@ import { queryClient } from "@/lib/react-query";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: siteConfig.name,
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
   description: siteConfig.description,
   icons: {
-    icon: "/images/ico/favicon.ico",
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
   },
 };
 

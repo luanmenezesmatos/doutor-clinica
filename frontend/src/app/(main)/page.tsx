@@ -378,17 +378,15 @@ async function FeatureThree() {
   return (
     <div className="py-12">
       <div className={cn("max-w-5xl mx-auto", "p-6 sm:p-8")}>
-        <div className="not-prose flex items-center flex-col gap-6 font-sans">
-          <div className="text-center">
-            <h1 className="font-bold text-4xl mb-5">Controle Financeiro</h1>
-            <h2 className={cn("leading-[1.4]", "text-md", "max-w-2xl")}>
-              Nunca mais perca dinheiro! Nosso{" "}
-              <b className="font-semibold">sistema virtual para clínicas</b>{" "}
-              proporciona visão completa do seu financeiro. Saiba quem pagou,
-              quem está pendente, parcelamentos, fluxo de caixa e integração com
-              meios de pagamento.
-            </h2>
-          </div>
+        <div className="not-prose flex items-center flex-col gap-6 font-sans text-center">
+          <h1 className="font-bold text-4xl mb-5">Controle Financeiro</h1>
+          <h2 className={cn("leading-[1.4]", "text-md", "max-w-2xl")}>
+            Nunca mais perca dinheiro! Nosso{" "}
+            <b className="font-semibold">sistema virtual para clínicas</b>{" "}
+            proporciona visão completa do seu financeiro. Saiba quem pagou, quem
+            está pendente, parcelamentos, fluxo de caixa e integração com meios
+            de pagamento.
+          </h2>
           <ul className="leading-[1.4] font-medium">
             <li>
               &#8226; Controle total de fluxo de caixa, contas a pagar e
@@ -406,15 +404,6 @@ async function FeatureThree() {
             <li>&#8226; Integração completa com agenda e prontuário;</li>
             <li>&#8226; Conciliação de extrato bancário.</li>
           </ul>
-          <div className="my-8 overflow-hidden border rounded-lg md:rounded-xl">
-            <Image
-              className="cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out"
-              src="/images/webp/renders/doctor.webp"
-              width={700}
-              height={100}
-              alt="hero image"
-            />
-          </div>
           <div className="not-prose flex items-center gap-2">
             <Button className="w-fit" variant="outline" asChild>
               <Link href="/controle-financeiro">
