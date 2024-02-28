@@ -7,7 +7,8 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowLeftCircle,
-  ArrowRightCircle
+  ArrowRightCircle,
+  Lock,
 } from "lucide-react";
 
 export const Icons = {
@@ -19,5 +20,6 @@ export const Icons = {
   arrowLeft: ArrowLeft,
   arrowRight: ArrowRight,
   arrowLeftCircle: ArrowLeftCircle,
-  arrowRightCircle: ArrowRightCircle
+  arrowRightCircle: ArrowRightCircle,
+  lock: Lock,
 };

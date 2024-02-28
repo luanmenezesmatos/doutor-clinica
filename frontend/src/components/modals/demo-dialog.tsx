@@ -26,21 +26,41 @@ export function DemoDialog({ children }: DemoDialogProps) {
       <CredenzaTrigger asChild>{children}</CredenzaTrigger>
       <CredenzaContent>
         <CredenzaHeader>
-          <CredenzaTitle>Dialog Title</CredenzaTitle>
+          <CredenzaTitle>Demonstração</CredenzaTitle>
+          <CredenzaDescription className="text-primary">
+            Vamos lá! Preencha o formulário para uma demonstração gratuita do
+            software médico{" "}
+            <span className="font-semibold">Doutor Clínica</span>.
+          </CredenzaDescription>
         </CredenzaHeader>
-        <CredenzaBody>
-          <CredenzaDescription>Oi</CredenzaDescription>
+        <CredenzaBody className="text-sm">
+          <p>Olá</p>
         </CredenzaBody>
         <CredenzaFooter>
-          <CredenzaClose>
-            <Button
-              variant="expandIcon"
-              Icon={Icons.close}
-              iconPlacement="right"
-            >
-              Fechar
-            </Button>
-          </CredenzaClose>
+          <div className="flex flex-col items-end">
+            <p className="font-medium text-center text-sm text-gray-500 mb-5">
+              <Icons.lock className="w-4 h-4 mr-1 inline" />
+              Seus dados estão seguros conosco. Ao preencher o formulário, você
+              está de acordo com a nossa{" "}
+              <a
+                href="/politica-de-privacidade"
+                className="text-primary underline"
+              >
+                Política de Privacidade
+              </a>
+              .
+            </p>
+
+            <CredenzaClose>
+              <Button
+                variant="expandIcon"
+                Icon={Icons.close}
+                iconPlacement="right"
+              >
+                Fechar
+              </Button>
+            </CredenzaClose>
+          </div>
         </CredenzaFooter>
       </CredenzaContent>
     </Credenza>
