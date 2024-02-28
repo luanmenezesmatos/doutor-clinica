@@ -5,14 +5,13 @@ import Image from "next/image";
 
 import { NavItem } from "@/types";
 
-import { siteConfig } from "@/config/site";
-
 import { cn } from "@/lib/utils";
 import { useLockBody } from "@/hooks/use-lock-body";
 
-import { Icons } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+
+import { DemoDialog } from "./modals/demo-dialog";
 
 interface MobileNavProps {
   items: NavItem[];
@@ -49,16 +48,15 @@ export function MobileNav({ items, children }: MobileNavProps) {
           <Separator />
 
           <div className="flex flex-col items-center pt-4">
-            <Link
-              href="/entrar"
-              className={cn(
-                buttonVariants({ variant: "default", size: "lg" }),
-                "px-4 w-[fit-content] mt-4"
-              )}
-            >
-              Solicite uma Demonstração
-              <Icons.arrowRight className="w-4 h-4 ml-2" />
-            </Link>
+            <DemoDialog>
+              <Button
+                variant="default"
+                size="lg"
+                className="px-4 w-[fit-content] mt-4"
+              >
+                Solicite uma Demonstração
+              </Button>
+            </DemoDialog>
           </div>
         </nav>
         {children}

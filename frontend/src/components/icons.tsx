@@ -1,6 +1,7 @@
 import {
   Pyramid,
   X,
+  XCircle,
   LogIn,
   Menu,
   ArrowLeft,
@@ -12,6 +13,7 @@ import {
 export const Icons = {
   logo: Pyramid,
   close: X,
+  closeCircle: XCircle,
   login: LogIn,
   menu: Menu,
   arrowLeft: ArrowLeft,
