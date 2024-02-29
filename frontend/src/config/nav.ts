@@ -40,33 +40,31 @@ export const navConfig: NavConfig = {
     },
     {
       type: "dropdown",
-      title: "Conteúdos",
-      href: "/conteudos",
+      title: "Sobre a Empresa",
+      href: "/sobre-a-empresa",
       hideNavMenuLink: false,
       description:
-        "Aprenda mais sobre gestão de clínicas e atendimento ao paciente.",
+        "Conheça a nossa história, missão, visão e valores. Saiba mais sobre o nosso time e nossa cultura.",
       dropdownItems: [
         {
           type: "link",
-          title: "Blog",
-          href: "/blog",
-          description:
-            "Navegue por nossos artigos e fique por dentro das novidades do mercado de saúde.",
+          title: "Política de Privacidade",
+          href: "/politica-de-privacidade",
+          description: `Saiba como protegemos os seus dados e respeitamos a sua privacidade.`,
         },
         {
           type: "link",
-          title: "Materiais",
-          href: "/materiais",
-          description:
-            "Acesse nossos materiais gratuitos. E-books, infográficos e muito mais.",
-        }
+          title: "Termos de Uso",
+          href: "/termos-de-uso",
+          description: `Conheça todas as diretrizes de uso do ${siteConfig.name}.`,
+        },
+        {
+          type: "link",
+          title: "Fale Conosco",
+          href: "/fale-conosco",
+          description: `Fale com um de nossos especialistas e tire todas as suas dúvidas.`,
+        },
       ],
-    },
-    {
-      type: "link",
-      title: "Contato",
-      href: "/contato",
-      description: `Fale com um de nossos especialistas e tire todas as suas dúvidas.`,
     },
   ],
 };

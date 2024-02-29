@@ -74,21 +74,29 @@ export function UserRegisterAuth() {
 
       const response = await request.json();
 
-      console.log("userRegisterForm", response);
-
       if (!request.ok) {
-        throw new Error(response.message);
+        if (response.code === "missing_data") {
+          throw new Error("Preencha todos os campos necessários!");
+        }
+
+        if (response.code === "user_exists") {
+          throw new Error("O e-mail informado já está cadastrado!");
+        }
       }
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.message("Erro ao efetuar o cadastro!", {
+        description: error.message,
+      });
     },
     onSuccess: () => {
       toast.success("Cadastro efetuado com sucesso");
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>, event: any) {
+    event.preventDefault();
+
     console.log("oie");
 
     mutateAuthUser(values);
