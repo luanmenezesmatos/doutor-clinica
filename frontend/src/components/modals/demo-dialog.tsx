@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/credenza";
 import { Button } from "@/components/ui/button";
 
+import { UserRegisterAuth } from "../forms/user-register-auth";
+
 interface DemoDialogProps {
   children: React.ReactNode;
 }
@@ -26,7 +28,7 @@ export function DemoDialog({ children }: DemoDialogProps) {
       <CredenzaTrigger asChild>{children}</CredenzaTrigger>
       <CredenzaContent>
         <CredenzaHeader>
-          <CredenzaTitle>Demonstração</CredenzaTitle>
+          <CredenzaTitle>Solicite uma Demonstração</CredenzaTitle>
           <CredenzaDescription className="text-primary">
             Vamos lá! Preencha o formulário para uma demonstração gratuita do
             software médico{" "}
@@ -34,7 +36,7 @@ export function DemoDialog({ children }: DemoDialogProps) {
           </CredenzaDescription>
         </CredenzaHeader>
         <CredenzaBody className="text-sm">
-          <p>Olá</p>
+          <UserRegisterAuth />
         </CredenzaBody>
         <CredenzaFooter>
           <div className="flex flex-col items-end">
@@ -53,6 +55,7 @@ export function DemoDialog({ children }: DemoDialogProps) {
 
             <CredenzaClose>
               <Button
+                className="text-primary border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 variant="expandIcon"
                 Icon={Icons.close}
                 iconPlacement="right"

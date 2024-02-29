@@ -2,7 +2,8 @@ import {
   JetBrains_Mono as FontMono,
   Inter as FontSans,
   Montserrat,
-  Raleway
+  Raleway,
+  Nunito_Sans as NunitoSans,
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -25,6 +26,11 @@ export const fontRaleway = Raleway({
   subsets: ["latin"],
   variable: "--font-raleway",
 });
+
+export const fontNunito = NunitoSans({
+  subsets: ["latin"],
+  variable: "--font-nunito",
+})
 
 export const fontHeading = localFont({
   src: "../../assets/fonts/CalSans-SemiBold.woff2",

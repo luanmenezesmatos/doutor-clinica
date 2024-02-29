@@ -9,6 +9,9 @@ import {
   ArrowLeftCircle,
   ArrowRightCircle,
   Lock,
+  ClipboardMinus,
+  FileInput,
+  Loader2
 } from "lucide-react";
 
 export const Icons = {
@@ -22,4 +25,7 @@ export const Icons = {
   arrowLeftCircle: ArrowLeftCircle,
   arrowRightCircle: ArrowRightCircle,
   lock: Lock,
+  clipboardMinus: ClipboardMinus,
+  fileInput: FileInput,
+  loader: Loader2
 };

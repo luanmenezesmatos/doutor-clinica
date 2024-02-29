@@ -4,12 +4,19 @@ import "./globals.css";
 import { siteConfig } from "@/config/site";
 
 import { cn } from "@/lib/utils";
-import { fontHeading, fontMono, fontSans, fontMontserrat, fontRaleway } from "@/lib/fonts";
+import {
+  fontHeading,
+  fontMono,
+  fontSans,
+  fontMontserrat,
+  fontRaleway,
+  fontNunito,
+} from "@/lib/fonts";
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/react-query";
 
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: {
@@ -39,6 +46,7 @@ export default function RootLayout({
           fontHeading.variable,
           fontMontserrat.variable,
           fontRaleway.variable,
+          fontNunito.variable
         )}
       >
         <QueryClientProvider client={queryClient}>

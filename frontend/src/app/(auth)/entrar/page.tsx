@@ -7,14 +7,16 @@ import { Suspense } from "react";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
-import { UserAuthForm } from "@/components/ui/user-auth-form";
+import { UserLoginAuth } from "@/components/forms/user-login-auth";
+
+import { getCurrentUser } from "@/lib/auth/session";
 
 export const metadata: Metadata = {
   title: "Entrar",
-  description: "Entre na sua conta!",
+  description: "Entrar na minha conta",
 };
 
-export default function SignInPage() {
+export default async function SignInPage() {
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link href="/" className="absolute left-4 top-4 md:left-8 md:top-8">
@@ -47,16 +49,8 @@ export default function SignInPage() {
           </p>
         </div>
         <Suspense>
-          <UserAuthForm />
+          <UserLoginAuth />
         </Suspense>
-        {/*         <p className="px-8 text-center text-sm text-muted-foreground">
-          <Link
-            href="/register"
-            className="hover:text-brand underline underline-offset-4"
-          >
-            Não tem uma conta? Crie uma!
-          </Link>
-        </p> */}
       </div>
     </div>
   );

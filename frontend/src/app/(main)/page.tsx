@@ -32,7 +32,9 @@ async function Hero() {
       <section className="py-12">
         <div className={cn("max-w-5xl mx-auto", "p-6 sm:p-8")}>
           <div className="w-full h-full m-auto max-w-5xl py-10 px-6 flex flex-col font-sans">
-            <p className="font-bold text-lg pb-2">Sistema para clínicas</p>
+            <p className="font-nunito font-bold text-lg pb-2">
+              Sistema para Clínicas
+            </p>
 
             <div className="space-y-8">
               <h1 className="text-5xl lg:6xl font-bold">
