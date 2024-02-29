@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
 
@@ -38,6 +39,8 @@ const formSchema = z.object({
 });
 
 export function UserLoginAuth() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,6 +57,14 @@ export function UserLoginAuth() {
         password: values.password,
         redirect: false,
       });
+
+      if (res?.error) {
+        toast.message("Erro ao efetuar o login!", {
+          description: res.error,
+        });
+      } else {
+        router.push("/app");
+      }
 
       console.log(res);
     },

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
 
@@ -51,6 +52,8 @@ const formSchema = z
   });
 
 export function UserRegisterAuth() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,7 +77,10 @@ export function UserRegisterAuth() {
 
       const response = await request.json();
 
-      if (!request.ok) {
+      if (request.ok) {
+        console.log(response);
+        router.push("/entrar");
+      } else {
         if (response.code === "missing_data") {
           throw new Error("Preencha todos os campos necessários!");
         }
@@ -107,7 +113,7 @@ export function UserRegisterAuth() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-2">
-            <div className="grid gap-1 pb-5">
+            <div className="grid gap-1 pb-5 lg:grid-cols-2 lg:space-x-2">
               <FormField
                 control={form.control}
                 name="name"
@@ -155,7 +161,9 @@ export function UserRegisterAuth() {
                   </FormItem>
                 )}
               />
+            </div>
 
+            <div className="grid gap-1 pb-5 lg:grid-cols-2 lg:space-x-2">
               <FormField
                 control={form.control}
                 name="password"

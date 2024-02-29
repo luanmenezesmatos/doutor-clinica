@@ -18,6 +18,8 @@ import { queryClient } from "@/lib/react-query";
 
 import { Toaster } from "@/components/ui/sonner";
 
+import AuthProvider from "@/components/auth-provider";
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -50,8 +52,8 @@ export default function RootLayout({
         )}
       >
         <QueryClientProvider client={queryClient}>
-          {children}
           <Toaster />
+          <AuthProvider>{children}</AuthProvider>
         </QueryClientProvider>
       </body>
     </html>
