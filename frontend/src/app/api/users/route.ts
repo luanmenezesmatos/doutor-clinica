@@ -7,12 +7,15 @@ import bcrypt from "bcrypt";
 export async function POST(request: NextRequest) {
   const data = await request.json();
 
-  const { name, email, password } = data;
+  const { name, email, password, clinic_name, occupation } = data;
   console.log("routeHandler", data);
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !clinic_name || !occupation) {
     return NextResponse.json(
-      { message: "Missing name, email or password", code: "missing_data" },
+      {
+        message: "Missing name, email, password, clinic name or occupation",
+        code: "missing_data",
+      },
       { status: 400 }
     );
   }
@@ -37,7 +40,13 @@ export async function POST(request: NextRequest) {
       email,
       name,
       hashedPassword,
-      role: "DEMO"
+      role: "DEMO",
+      occupation,
+      clinic: {
+        create: {
+          name: clinic_name,
+        },
+      },
     },
   });
 

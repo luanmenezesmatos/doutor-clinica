@@ -92,7 +92,6 @@ export function UserRegisterAuth() {
       const response = await request.json();
 
       if (request.ok) {
-        console.log(response);
         router.push("/entrar");
       } else {
         if (response.code === "missing_data") {
@@ -116,6 +115,8 @@ export function UserRegisterAuth() {
 
   async function onSubmit(values: z.infer<typeof formSchema>, event: any) {
     event.preventDefault();
+
+    console.log(values);
 
     mutateAuthUser(values);
   }
