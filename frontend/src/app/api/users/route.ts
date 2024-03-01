@@ -40,7 +40,6 @@ export async function POST(request: NextRequest) {
       email,
       name,
       hashedPassword,
-      role: "DEMO",
       occupation,
       clinic: {
         create: {
