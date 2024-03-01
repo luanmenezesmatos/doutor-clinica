@@ -63,14 +63,13 @@ export function UserLoginAuth() {
           description: res.error,
         });
       } else {
-        router.push("/app");
+        router.push("/plataforma");
+
+        toast.success("Login efetuado com sucesso!");
       }
     },
     onError: (error) => {
       toast.error(error.message);
-    },
-    onSuccess: () => {
-      toast.success("Login efetuado com sucesso!");
     },
   });
 

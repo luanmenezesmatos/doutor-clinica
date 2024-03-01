@@ -1,3 +1,5 @@
+import { type LucideIcon } from "lucide-react";
+
 export type SiteConfig = {
   name: string;
   description: string;
@@ -25,5 +27,3 @@ export type NavItem = {
   description: string;
   dropdownItems?: NavItem[];
 };
-
-export type NavItem = NavItem;

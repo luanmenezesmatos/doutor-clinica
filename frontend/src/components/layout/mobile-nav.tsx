@@ -11,7 +11,7 @@ import { useLockBody } from "@/hooks/use-lock-body";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-import { DemoDialog } from "./modals/demo-dialog";
+import { DemoDialog } from "../modals/demo-dialog";
 
 interface MobileNavProps {
   items: NavItem[];

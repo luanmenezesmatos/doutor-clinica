@@ -1,8 +1,16 @@
+import React from "react";
+
 import { getCurrentUser } from "@/lib/auth/session";
 
 import { RedirectType, redirect } from "next/navigation";
 
-export default async function DashboardPage() {
+interface PlatformLayoutProps {
+  children: React.ReactNode;
+}
+
+export default async function PlatformLayout({
+  children,
+}: PlatformLayoutProps) {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -11,11 +19,7 @@ export default async function DashboardPage() {
 
   return (
     <>
-      {user ? (
-        <p>Usuário autenticado: {user.name}</p>
-      ) : (
-        <p>Usuário não autenticado</p>
-      )}
+      <main>{children}</main>
     </>
   );
 }

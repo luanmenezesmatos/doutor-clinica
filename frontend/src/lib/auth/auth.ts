@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "E-mail", type: "text", placeholder: "E-mail" },
         password: { label: "Senha", type: "password" },
       },
-      async authorize(credentials, req): Promise<any> {
+      async authorize(credentials): Promise<any> {
         try {
           console.log("Authorize method", credentials);
 
@@ -46,6 +46,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/entrar",
+  },
   session: {
     strategy: "jwt",
   },
