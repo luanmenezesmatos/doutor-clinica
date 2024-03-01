@@ -41,7 +41,7 @@ model User {
   hashedPassword String?
   role           Role      @default(DEMO)
   occupation     String?
-  gender         Gender?
+  gender         String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   accounts       Account[]
@@ -77,9 +77,4 @@ enum Role {
   CLINIC
   DOCTOR
   DEMO
-}
-
-enum Gender {
-  MALE
-  FEMALE
 }
