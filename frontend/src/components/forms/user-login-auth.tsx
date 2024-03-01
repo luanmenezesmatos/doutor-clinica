@@ -59,26 +59,22 @@ export function UserLoginAuth() {
       });
 
       if (res?.error) {
-        toast.message("Erro ao efetuar o login!", {
+        return toast.message("Ocorreu um erro ao efetuar o login!", {
           description: res.error,
         });
       } else {
         router.push("/app");
       }
-
-      console.log(res);
     },
     onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: () => {
-      toast.success("Login efetuado com sucesso");
+      toast.success("Login efetuado com sucesso!");
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("oie");
-
     mutateAuthUser(values);
   }
 

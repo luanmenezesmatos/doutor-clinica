@@ -41,7 +41,5 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  console.log("user", user);
-
   return NextResponse.json(user);
 }

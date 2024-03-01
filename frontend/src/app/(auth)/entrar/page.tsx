@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button";
 
 import { UserLoginAuth } from "@/components/forms/user-login-auth";
 
-import { getCurrentUser } from "@/lib/auth/session";
-
 export const metadata: Metadata = {
   title: "Entrar",
   description: "Entrar na minha conta",

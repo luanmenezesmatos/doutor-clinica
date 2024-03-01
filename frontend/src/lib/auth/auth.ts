@@ -16,37 +16,39 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Senha", type: "password" },
       },
       async authorize(credentials, req): Promise<any> {
-        console.log("Authorize method", credentials);
+        try {
+          console.log("Authorize method", credentials);
 
-        if (!credentials?.email || !credentials?.password)
-          throw new Error("Os dados do usuário não foram informados.");
+          if (!credentials?.email || !credentials?.password)
+            throw new Error("Os dados do usuário não foram informados.");
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
 
-        if (!user || !user.hashedPassword) {
-          throw new Error("Usuário não encontrado.");
+          if (!user || !user.hashedPassword) {
+            throw new Error("Usuário não encontrado.");
+          }
+
+          const matchPassword = await bcrypt.compare(
+            credentials.password,
+            user.hashedPassword
+          );
+
+          if (!matchPassword) {
+            throw new Error("Senha incorreta.");
+          }
+
+          return user;
+        } catch (error: any) {
+          throw new Error(error.message);
         }
-
-        const matchPassword = await bcrypt.compare(
-          credentials.password,
-          user.hashedPassword
-        );
-        if (!matchPassword) {
-          throw new Error("Senha incorreta.");
-        }
-
-        return user;
       },
     }),
   ],
   session: {
     strategy: "jwt",
   },
-  secret: process.env.SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
-  pages: {
-    signIn: "/entrar",
-  },
 };
