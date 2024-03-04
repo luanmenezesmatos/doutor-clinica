@@ -398,7 +398,7 @@ async function FeatureOne() {
         <div className="flex flex-col py-8 gap-6">
           <h3 className="!my-0 font-bold text-4xl">Prontuário Eletrônico</h3>
           <p className={cn("leading-[1.4]", "text-md")}>
-            Chega de prontuários de papel. Com o Prontuário Eletrônico, sua
+            Chega de prontuários de papel. Com o <b className="font-semibold">Prontuário Eletrônico</b>, sua
             clínica torna todo o processo muito mais rápido, organizado e
             eficiente.
           </p>
@@ -423,34 +423,28 @@ async function FeatureOne() {
             </Button>
           </div>
         </div>
-        <div className="not-prose relative rounded-lg flex">
-          {/* <Image
+        {/* <Image
             src="/images/jpg/renders/woman-doctor.jpg"
             alt="placeholder"
             className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out rounded-lg"
             fill
           /> */}
 
-          <div className="flex items-center justify-center">
-            <CardContainer>
-              <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[8rem]">
-                <div className="max-w-xs !pb-2 !m-0 font-sans font-bold text-base text-white">
-                  <Image
-                    alt="Logo"
-                    src="/logo-icon-white.svg"
-                    height={20}
-                    width={20}
-                  />
-                </div>
-                <div className="text-base !m-0 !p-0 font-normal">
-                  <span className="text-white">
-                    Tenha um prontuário eletrônico completo e seguro.
-                  </span>
-                </div>
-              </div>
-            </CardContainer>
+        <CardContainer>
+          <div className="flex flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[8rem]">
+            <div className="max-w-xs !pb-2 !m-0 font-sans font-bold text-base text-white">
+              <Image
+                alt="Logo"
+                src="/logo-icon-white.svg"
+                height={20}
+                width={20}
+              />
+            </div>
+            <div className="!m-0 !p-0 font-sans font-normal text-base text-white">
+              <span>Tenha um prontuário eletrônico completo e seguro!</span>
+            </div>
           </div>
-        </div>
+        </CardContainer>
       </div>
     </section>
   );
