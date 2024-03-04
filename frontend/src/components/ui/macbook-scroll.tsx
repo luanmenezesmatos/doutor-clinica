@@ -70,7 +70,7 @@ export const MacbookScroll = ({
   return (
     <div
       ref={ref}
-      className="flex flex-col items-center py-0 md:py-80 justify-start flex-shrink-0 transform md:scale-100 scale-[0.6] sm:scale-50"
+      className="flex flex-col items-center py-0 md:pb-80 justify-start flex-shrink-0 transform md:scale-100 scale-[0.6] sm:scale-50"
     >
       <motion.h2
         style={{
@@ -99,13 +99,13 @@ export const MacbookScroll = ({
         )}
       </motion.h2>
       {/* Lid */}
-        <Lid
-          src={src}
-          scaleX={scaleX}
-          scaleY={scaleY}
-          rotate={rotate}
-          translate={translate}
-        />
+      <Lid
+        src={src}
+        scaleX={scaleX}
+        scaleY={scaleY}
+        rotate={rotate}
+        translate={translate}
+      />
       {/* Base area */}
       <div className="h-[22rem] w-[32rem] bg-gray-200 rounded-2xl overflow-hidden relative -z-10">
         {/* above keyboard bar */}

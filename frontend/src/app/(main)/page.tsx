@@ -10,8 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { MacbookScroll } from "@/components/ui/macbook-scroll";
-import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+import {
+  CardBody,
+  CardHoverContainer,
+  CardItem,
+} from "@/components/ui/3d-hover-card";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { CardContainer } from "@/components/ui/3d-card";
 
 export default function Home() {
   return (
@@ -123,7 +128,7 @@ async function Demo() {
             className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out rounded-lg"
             fill
           /> */}
-        <CardContainer className="inter-var">
+        <CardHoverContainer className="inter-var">
           <CardBody className="relative group/card sm:w-[30rem] border-black/[0.1] w-auto h-auto rounded-xl border">
             <CardItem translateZ="100" className="w-full">
               <Image
@@ -135,7 +140,7 @@ async function Demo() {
               />
             </CardItem>
           </CardBody>
-        </CardContainer>
+        </CardHoverContainer>
       </div>
     </section>
   );
@@ -418,13 +423,33 @@ async function FeatureOne() {
             </Button>
           </div>
         </div>
-        <div className="not-prose border relative rounded-lg flex">
-          <Image
+        <div className="not-prose relative rounded-lg flex">
+          {/* <Image
             src="/images/jpg/renders/woman-doctor.jpg"
             alt="placeholder"
             className="fill object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300 ease-in-out rounded-lg"
             fill
-          />
+          /> */}
+
+          <div className="flex items-center justify-center">
+            <CardContainer>
+              <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[8rem]">
+                <div className="max-w-xs !pb-2 !m-0 font-sans font-bold text-base text-white">
+                  <Image
+                    alt="Logo"
+                    src="/logo-icon-white.svg"
+                    height={20}
+                    width={20}
+                  />
+                </div>
+                <div className="text-base !m-0 !p-0 font-normal">
+                  <span className="text-white">
+                    Tenha um prontuário eletrônico completo e seguro.
+                  </span>
+                </div>
+              </div>
+            </CardContainer>
+          </div>
         </div>
       </div>
     </section>
