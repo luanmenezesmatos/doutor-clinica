@@ -1,8 +1,12 @@
 import { Metadata } from "next";
+
 import Link from "next/link";
 import Image from "next/image";
+import { RedirectType, redirect } from "next/navigation";
 
 import { Suspense } from "react";
+
+import { getCurrentUser } from "@/lib/auth/session";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -15,6 +19,12 @@ export const metadata: Metadata = {
 };
 
 export default async function SignInPage() {
+  const user = await getCurrentUser();
+
+  if (user) {
+    redirect("/plataforma", RedirectType.push);
+  }
+
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link href="/" className="absolute left-4 top-4 md:left-8 md:top-8">

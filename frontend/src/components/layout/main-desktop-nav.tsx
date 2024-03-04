@@ -9,7 +9,7 @@ import { NavItem } from "@/types";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
-import { MobileNav } from "./mobile-nav";
+import { MobileNav } from "./main-mobile-nav";
 import { buttonVariants } from "@/components/ui/button";
 import {
   NavigationMenu,

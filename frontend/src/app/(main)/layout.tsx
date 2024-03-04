@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { DesktopNav } from "@/components/layout/desktop-nav";
+import { DesktopNav } from "@/components/layout/main-desktop-nav";
 
 import { DemoDialog } from "@/components/modals/demo-dialog";
 

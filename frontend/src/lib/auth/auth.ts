@@ -17,8 +17,6 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials): Promise<any> {
         try {
-          console.log("Authorize method", credentials);
-
           if (!credentials?.email || !credentials?.password)
             throw new Error("Os dados do usuário não foram informados.");
 

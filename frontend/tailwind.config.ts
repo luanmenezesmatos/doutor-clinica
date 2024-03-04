@@ -21,12 +21,12 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-        heading: ['var(--font-heading)', ...fontFamily.sans],
-        mono: ['var(--font-mono)', ...fontFamily.mono],
-        montserrat: ['var(--font-montserrat)', ...fontFamily.sans],
-        raleway: ['var(--font-raleway)', ...fontFamily.sans],
-        nunito: ['var(--font-nunito)', ...fontFamily.sans],
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+        heading: ["var(--font-heading)", ...fontFamily.sans],
+        mono: ["var(--font-mono)", ...fontFamily.mono],
+        montserrat: ["var(--font-montserrat)", ...fontFamily.sans],
+        raleway: ["var(--font-raleway)", ...fontFamily.sans],
+        nunito: ["var(--font-nunito)", ...fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",
