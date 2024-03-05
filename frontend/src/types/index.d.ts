@@ -32,6 +32,7 @@ export interface SideItem {
   title: string;
   href: string;
   icon?: LucideIcon;
+  color?: string;
   isChildren?: boolean;
   children?: SideItem[];
 }

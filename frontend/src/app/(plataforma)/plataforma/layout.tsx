@@ -23,10 +23,10 @@ export default async function PlatformLayout({
 
   return (
     <>
-      <div className="flex h-screen border-collapse overflow-y-auto overflow-x-hidden">
-        <Sidebar />
-        <main className="flex-1 overflow-hidden pt-16 bg-secondary/10 pb-1">
-          <PlatformDesktopNav />
+      <div className="flex h-screen border-collapse">
+        <Sidebar className="z-10" />
+        <main className="flex-1 pt-16 bg-secondary/10 pb-1 relative">
+          <PlatformDesktopNav className="z-20" />
 
           {children}
         </main>

@@ -56,7 +56,9 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
                 )}
               >
                 <div>
-                  {item.icon && <item.icon className={cn("h-4 w-4")} />}
+                  {item.icon && (
+                    <item.icon className={cn("h-4 w-4", item.color)} />
+                  )}
                 </div>
                 <div
                   className={cn(
@@ -86,7 +88,9 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
                         "bg-muted font-medium hover:bg-muted"
                     )}
                   >
-                    {child.icon && <child.icon className={cn("h-4 w-4")} />}
+                    {child.icon && (
+                      <child.icon className={cn("h-4 w-4", item.color)} />
+                    )}
                     <div
                       className={cn(
                         "absolute left-8 text-base duration-200",
@@ -113,15 +117,27 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
               path === item.href && "bg-muted font-semibold hover:bg-muted"
             )}
           >
-            {item.icon && <item.icon className={cn("h-4 w-4")} />}
-            <span
-              className={cn(
-                "absolute left-12 text-base duration-200",
-                !isOpen && className
-              )}
-            >
-              {item.title}
-            </span>
+            {item.icon && <item.icon className={cn("h-4 w-4", item.color)} />}
+            {item.color ? (
+              <span
+                className={cn(
+                  "absolute left-12 text-base duration-200",
+                  item.color,
+                  !isOpen && className
+                )}
+              >
+                {item.title}
+              </span>
+            ) : (
+              <span
+                className={cn(
+                  "absolute left-12 text-base duration-200",
+                  !isOpen && className
+                )}
+              >
+                {item.title}
+              </span>
+            )}
           </Link>
         )
       )}

@@ -9,6 +9,7 @@ import {
   ShoppingBag,
   LineChart,
   Settings,
+  LogOut,
 } from "lucide-react";
 import { type SideItem } from "@/types";
 
@@ -202,5 +203,11 @@ export const NavItems: SideItem[] = [
         href: "/plataforma/configuracoes/seguranca",
       },
     ],
+  },
+  {
+    title: "Sair",
+    icon: LogOut,
+    color: "text-red-500",
+    href: "/sair",
   },
 ];
