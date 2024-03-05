@@ -25,7 +25,7 @@ export const MobileSidebar = () => {
             <MenuIcon />
           </div>
         </SheetTrigger>
-        <SheetContent side="left" className="w-72">
+        <SheetContent side="left" className="w-72 overflow-y-auto">
           <div className="flex flex-col items-start justify-start pt-10 gap-2">
             <Image
               alt="logo"
