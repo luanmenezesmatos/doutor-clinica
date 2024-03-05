@@ -27,3 +27,11 @@ export type NavItem = {
   description: string;
   dropdownItems?: NavItem[];
 };
+
+export interface SideItem {
+  title: string;
+  href: string;
+  icon?: LucideIcon;
+  isChildren?: boolean;
+  children?: SideItem[];
+}

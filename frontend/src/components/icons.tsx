@@ -11,7 +11,8 @@ import {
   Lock,
   ClipboardMinus,
   FileInput,
-  Loader2
+  Loader2,
+  ChevronLeft,
 } from "lucide-react";
 
 export const Icons = {
@@ -27,5 +28,6 @@ export const Icons = {
   lock: Lock,
   clipboardMinus: ClipboardMinus,
   fileInput: FileInput,
-  loader: Loader2
+  loader: Loader2,
+  chevronLeft: ChevronLeft,
 };
