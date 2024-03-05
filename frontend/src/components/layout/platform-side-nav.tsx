@@ -44,7 +44,6 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
           <Accordion
             type="single"
             collapsible
-            className="space-y-2"
             key={item.title}
             value={openItem}
             onValueChange={setOpenItem}
@@ -53,11 +52,11 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
               <AccordionTrigger
                 className={cn(
                   buttonVariants({ variant: "ghost" }),
-                  "group relative flex h-12 justify-between px-4 py-2 text-base duration-200 hover:bg-muted hover:no-underline"
+                  "group relative flex h-auto justify-between px-4 py-2 text-base duration-200 hover:bg-muted hover:no-underline"
                 )}
               >
                 <div>
-                  {item.icon && <item.icon className={cn("h-5 w-5")} />}
+                  {item.icon && <item.icon className={cn("h-4 w-4")} />}
                 </div>
                 <div
                   className={cn(
@@ -69,7 +68,7 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
                 </div>
 
                 {isOpen && (
-                  <ChevronDownIcon className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200" />
+                  <ChevronDownIcon className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
                 )}
               </AccordionTrigger>
               <AccordionContent className="mt-2 space-y-4 pb-1">
@@ -82,15 +81,15 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
                     }}
                     className={cn(
                       buttonVariants({ variant: "ghost" }),
-                      "group relative flex h-12 justify-start gap-x-3",
+                      "group relative flex h-8 justify-start",
                       path === child.href &&
                         "bg-muted font-medium hover:bg-muted"
                     )}
                   >
-                    {child.icon && <child.icon className={cn("h-5 w-5")} />}
+                    {child.icon && <child.icon className={cn("h-4 w-4")} />}
                     <div
                       className={cn(
-                        "absolute left-12 text-base duration-200",
+                        "absolute left-8 text-base duration-200",
                         !isOpen && className
                       )}
                     >
@@ -110,11 +109,11 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
             }}
             className={cn(
               buttonVariants({ variant: "ghost" }),
-              "group relative flex h-12 justify-start",
+              "group relative flex h-8 justify-start",
               path === item.href && "bg-muted font-semibold hover:bg-muted"
             )}
           >
-            {item.icon && <item.icon className={cn("h-5 w-5")} />}
+            {item.icon && <item.icon className={cn("h-4 w-4")} />}
             <span
               className={cn(
                 "absolute left-12 text-base duration-200",

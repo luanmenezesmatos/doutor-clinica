@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { MenuIcon } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -22,10 +23,26 @@ export const MobileSidebar = () => {
         <SheetTrigger asChild>
           <div className="flex items-center justify-center gap-2">
             <MenuIcon />
-            <h1 className="text-lg font-semibold">T3 app template</h1>
           </div>
         </SheetTrigger>
         <SheetContent side="left" className="w-72">
+          <div className="flex flex-col items-start justify-start pt-10 gap-2">
+            <Image
+              alt="logo"
+              src="/images/svg/logo.svg"
+              width={160}
+              height={40}
+            />
+
+            <div
+              className="text-md font-inter"
+              style={{ maxWidth: "200px" }}
+            >
+              Democratizamos o acesso à{" "}
+              <b className="font-semibold">saúde de qualidade</b>
+            </div>
+          </div>
+
           <div className="px-1 py-6 pt-16">
             <SideNav items={NavItems} setOpen={setOpen} />
           </div>
