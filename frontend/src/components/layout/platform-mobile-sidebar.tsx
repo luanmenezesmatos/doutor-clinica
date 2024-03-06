@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { MenuIcon } from "lucide-react";
+import { AlignRight } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { SideNav } from "@/components/layout/platform-side-nav";
 import { NavItems } from "@/config/sidebar";
@@ -21,8 +21,8 @@ export const MobileSidebar = () => {
     <>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <div className="flex items-center justify-center gap-2">
-            <MenuIcon />
+          <div className="flex items-center justify-center gap-2 p-1 border rounded-xl bg-neutral-50">
+            <AlignRight />
           </div>
         </SheetTrigger>
         <SheetContent side="left" className="w-72 overflow-y-auto">
@@ -34,10 +34,7 @@ export const MobileSidebar = () => {
               height={40}
             />
 
-            <div
-              className="text-md font-inter"
-              style={{ maxWidth: "200px" }}
-            >
+            <div className="text-md font-inter" style={{ maxWidth: "200px" }}>
               Democratizamos o acesso à{" "}
               <b className="font-semibold">saúde de qualidade</b>
             </div>

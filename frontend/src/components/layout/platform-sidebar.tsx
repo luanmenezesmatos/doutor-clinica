@@ -43,7 +43,7 @@ export function Sidebar({ className }: SidebarProps) {
         )}
       >
         {isOpen ? (
-          <div className="flex flex-col p-4 gap-4">
+          <div className="flex flex-col p-4 gap-4 ml-2">
             <Link href="/plataforma">
               <Image
                 alt="logo"
