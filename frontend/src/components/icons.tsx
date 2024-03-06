@@ -13,6 +13,10 @@ import {
   FileInput,
   Loader2,
   ChevronLeft,
+  AlignRight,
+  Eye,
+  EyeOff,
+  Calendar
 } from "lucide-react";
 
 export const Icons = {
@@ -30,4 +34,8 @@ export const Icons = {
   fileInput: FileInput,
   loader: Loader2,
   chevronLeft: ChevronLeft,
+  alignRight: AlignRight,
+  eye: Eye,
+  eyeOff: EyeOff,
+  calendar: Calendar,
 };

@@ -1,15 +1,15 @@
 import { getCurrentUser } from "@/lib/auth/session";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+import { Indicators } from "./components/indicators";
+
 export default async function DashboardPage() {
   const user = await getCurrentUser();
 
   return (
-    <>
-      {user ? (
-        <p>Usuário autenticado: {user.name}</p>
-      ) : (
-        <p>Usuário não autenticado</p>
-      )}
-    </>
+    <ScrollArea className="h-full">
+      <Indicators />
+    </ScrollArea>
   );
 }

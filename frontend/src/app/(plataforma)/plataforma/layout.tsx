@@ -37,7 +37,7 @@ export default async function PlatformLayout({
         <main className="flex-1 bg-secondary/10 pb-1 relative">
           <PlatformDesktopHeader className="z-20" />
 
-          <div className="overflow-hidden w-full pt-16">{children}</div>
+          <div className="overflow-hidden w-full">{children}</div>
         </main>
       </div>
     </>

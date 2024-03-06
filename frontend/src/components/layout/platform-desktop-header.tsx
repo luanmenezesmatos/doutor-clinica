@@ -22,21 +22,12 @@ export function PlatformDesktopHeader({
       <div className="right-0 supports-backdrop-blur:bg-background/60 border-b bg-background/95 backdrop-blur z-20">
         <nav className="container flex h-16 items-center justify-between">
           <div className={cn("block md:!hidden")}>
-            <Link href={"/"}>
-              <Image
-                src="/images/svg/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </Link>
-          </div>
-
-          <div className="flex flex-1 items-center justify-end space-x-2">
             <div className={cn("block md:!hidden")}>
               <MobileSidebar />
             </div>
           </div>
+
+          <div className="flex flex-1 items-center justify-end space-x-2"></div>
         </nav>
       </div>
     </>

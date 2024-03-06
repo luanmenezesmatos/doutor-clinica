@@ -1,9 +1,13 @@
 import Image from "next/image";
+
 import { useState, useEffect } from "react";
-import { AlignRight } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { SideNav } from "@/components/layout/platform-side-nav";
+
 import { NavItems } from "@/config/sidebar";
+
+import { Icons } from "@/components/icons";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
+import { SideNav } from "@/components/layout/platform-side-nav";
 
 export const MobileSidebar = () => {
   const [open, setOpen] = useState(false);
@@ -21,8 +25,21 @@ export const MobileSidebar = () => {
     <>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <div className="flex items-center justify-center gap-2 p-1 border rounded-xl bg-neutral-50">
-            <AlignRight />
+          {/* <button
+            className="flex items-center space-x-2 md:hidden"
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+          >
+            {showMobileMenu ? <Icons.close /> : <Icons.menu />}
+            <span className="font-sans font-semibold">Menu</span>
+          </button> */}
+
+          <div className="flex items-center justify-center space-x-2">
+            {open ? (
+              <Icons.close className="h-5 w-5" />
+            ) : (
+              <Icons.alignRight className="h-5 w-5" />
+            )}
+            <span className="font-sans font-semibold">Menu</span>
           </div>
         </SheetTrigger>
         <SheetContent side="left" className="w-72 overflow-y-auto">
