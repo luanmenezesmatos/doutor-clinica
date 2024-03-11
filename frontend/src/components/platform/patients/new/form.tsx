@@ -627,7 +627,7 @@ export function PatientForm() {
                         control={form.control}
                         name="zip"
                         render={({ field }) => (
-                          <FormItem className="w-[240px]">
+                          <FormItem className="w-full md:w-[240px]">
                             <FormLabel>CEP</FormLabel>
                             <FormControl>
                               <InputMask
@@ -650,7 +650,7 @@ export function PatientForm() {
                         control={form.control}
                         name="street"
                         render={({ field }) => (
-                          <FormItem>
+                          <FormItem className="w-full">
                             <FormLabel>Endereço</FormLabel>
                             <FormControl>
                               <Input {...field} type="text" />
@@ -661,12 +661,12 @@ export function PatientForm() {
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid md:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
                         name="number"
                         render={({ field }) => (
-                          <FormItem className="w-[240px]">
+                          <FormItem className="w-full md:w-[240px]">
                             <FormLabel>Número</FormLabel>
                             <FormControl>
                               <Input {...field} type="text" />
@@ -680,7 +680,7 @@ export function PatientForm() {
                         control={form.control}
                         name="complement"
                         render={({ field }) => (
-                          <FormItem className="w-[240px]">
+                          <FormItem className="w-full md:w-[240px]">
                             <FormLabel>Complemento</FormLabel>
                             <FormControl>
                               <Input {...field} type="text" />
@@ -696,7 +696,7 @@ export function PatientForm() {
                         control={form.control}
                         name="neighborhood"
                         render={({ field }) => (
-                          <FormItem className="w-[240px]">
+                          <FormItem className="w-full md:w-[240px]">
                             <FormLabel>Bairro</FormLabel>
                             <FormControl>
                               <Input {...field} type="text" />
@@ -710,7 +710,7 @@ export function PatientForm() {
                         control={form.control}
                         name="city"
                         render={({ field }) => (
-                          <FormItem className="w-[240px]">
+                          <FormItem className="w-full md:w-[240px]">
                             <FormLabel>Cidade</FormLabel>
                             <FormControl>
                               <Input {...field} type="text" />
@@ -721,20 +721,6 @@ export function PatientForm() {
                       />
                     </div>
                   </CardContent>
-
-                  <Card className="h-full w-full overflow-auto">
-                    <CardContent className="flex items-center justify-end space-x-2">
-                      <Button variant="outline">
-                        <Icons.close className="mr-2 w-4 h-4" />
-                        Cancelar
-                      </Button>
-
-                      <Button type="submit" variant="default">
-                        <Icons.check className="mr-2 w-4 h-4" />
-                        Cadastrar
-                      </Button>
-                    </CardContent>
-                  </Card>
                 </CardContent>
               </TabsContent>
               <TabsContent value="complementaryData">
@@ -743,6 +729,27 @@ export function PatientForm() {
               <TabsContent value="marketingInformation">
                 Informações de Marketing
               </TabsContent>
+            </Card>
+            <Separator className="mt-5 mb-5" />
+            <Card className="h-full w-full overflow-auto justify-end">
+              <CardContent className="flex items-center justify-end p-5 pb-0">
+                <div
+                  className={cn(
+                    "flex items-center gap-2",
+                    "w-full justify-center md:justify-end"
+                  )}
+                >
+                  <Button variant="outline">
+                    <Icons.close className="mr-2 w-4 h-4" />
+                    Cancelar
+                  </Button>
+
+                  <Button type="submit" variant="default">
+                    <Icons.check className="mr-2 w-4 h-4" />
+                    Cadastrar
+                  </Button>
+                </div>
+              </CardContent>
             </Card>
           </Tabs>
         </form>
