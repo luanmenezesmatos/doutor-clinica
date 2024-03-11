@@ -144,7 +144,7 @@ export function PatientForm() {
 
             <Card className="h-full w-full justify-start p-5 overflow-auto">
               <TabsContent value="patientData">
-                <CardContent className="space-y-8">
+                <CardContent className="space-y-8 pt-0">
                   <b className="font-semibold">Dados pessoais</b>
 
                   <Separator className="mt-5 mb-5" />
@@ -161,9 +161,6 @@ export function PatientForm() {
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
-                        <FormDescription>
-                          Se o paciente está ativo ou não
-                        </FormDescription>
                       </FormItem>
                     )}
                   />
@@ -178,9 +175,6 @@ export function PatientForm() {
                           <FormControl>
                             <Input {...field} type="text" />
                           </FormControl>
-                          <FormDescription>
-                            Nome civil completo do paciente
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -195,9 +189,6 @@ export function PatientForm() {
                           <FormControl>
                             <Input {...field} type="text" />
                           </FormControl>
-                          <FormDescription>
-                            Nome social completo do paciente
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -251,9 +242,6 @@ export function PatientForm() {
                               />
                             </PopoverContent>
                           </Popover>
-                          <FormDescription>
-                            Data de Nascimento do paciente
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -288,7 +276,6 @@ export function PatientForm() {
                               </SelectContent>
                             </Select>
                           </FormControl>
-                          <FormDescription>Gênero do paciente</FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -307,9 +294,6 @@ export function PatientForm() {
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
-                        <FormDescription>
-                          Se o paciente é estrangeiro
-                        </FormDescription>
                       </FormItem>
                     )}
                   />
@@ -521,7 +505,10 @@ export function PatientForm() {
                           className="border-none"
                           value="additionalInformation"
                         >
-                          <AccordionTrigger icon={true} className="py-2 hover:no-underline">
+                          <AccordionTrigger
+                            icon={true}
+                            className="py-2 hover:no-underline"
+                          >
                             <CardHeader className="p-1 text-start">
                               <CardTitle className="text-base font-semibold">
                                 Informações adicionais de contato
@@ -627,6 +614,125 @@ export function PatientForm() {
                           </AccordionContent>
                         </AccordionItem>
                       </Accordion>
+                    </CardContent>
+                  </Card>
+
+                  <CardContent className="space-y-8 p-0">
+                    <b className="font-semibold">Endereço</b>
+
+                    <Separator className="mt-5 mb-5" />
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="zip"
+                        render={({ field }) => (
+                          <FormItem className="w-[240px]">
+                            <FormLabel>CEP</FormLabel>
+                            <FormControl>
+                              <InputMask
+                                type="tel"
+                                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                                mask="99999-999"
+                                maskChar=""
+                                value={field.value}
+                                onChange={(e) => {
+                                  field.onChange(e.target.value);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="street"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Endereço</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="text" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="number"
+                        render={({ field }) => (
+                          <FormItem className="w-[240px]">
+                            <FormLabel>Número</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="text" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="complement"
+                        render={({ field }) => (
+                          <FormItem className="w-[240px]">
+                            <FormLabel>Complemento</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="text" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="neighborhood"
+                        render={({ field }) => (
+                          <FormItem className="w-[240px]">
+                            <FormLabel>Bairro</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="text" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="city"
+                        render={({ field }) => (
+                          <FormItem className="w-[240px]">
+                            <FormLabel>Cidade</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="text" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </CardContent>
+
+                  <Card className="h-full w-full overflow-auto">
+                    <CardContent className="flex items-center justify-end space-x-2">
+                      <Button variant="outline">
+                        <Icons.close className="mr-2 w-4 h-4" />
+                        Cancelar
+                      </Button>
+
+                      <Button type="submit" variant="default">
+                        <Icons.check className="mr-2 w-4 h-4" />
+                        Cadastrar
+                      </Button>
                     </CardContent>
                   </Card>
                 </CardContent>
