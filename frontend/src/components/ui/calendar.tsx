@@ -101,10 +101,12 @@ function Calendar({
                 }}
                 value={props.value?.toString()}
               >
-                <SelectTrigger>{format(currentMonth, "MMM", { locale: ptBR })}</SelectTrigger>
+                <SelectTrigger>
+                  {format(currentMonth, "MMM", { locale: ptBR })}
+                </SelectTrigger>
                 <SelectContent>
                   {selectItems.map((selectItem) => (
-                    <SelectItem value={selectItem.value}>
+                    <SelectItem key={selectItem.value} value={selectItem.value}>
                       {selectItem.label}
                     </SelectItem>
                   ))}
@@ -141,7 +143,7 @@ function Calendar({
                 <SelectTrigger>{currentMonth.getFullYear()}</SelectTrigger>
                 <SelectContent>
                   {selectItems.map((selectItem) => (
-                    <SelectItem value={selectItem.value}>
+                    <SelectItem key={selectItem.value} value={selectItem.value}>
                       {selectItem.label}
                     </SelectItem>
                   ))}
