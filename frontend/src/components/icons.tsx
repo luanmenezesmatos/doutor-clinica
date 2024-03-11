@@ -16,7 +16,9 @@ import {
   AlignRight,
   Eye,
   EyeOff,
-  Calendar
+  Calendar,
+  Plus,
+  Check,
 } from "lucide-react";
 
 export const Icons = {
@@ -38,4 +40,6 @@ export const Icons = {
   eye: Eye,
   eyeOff: EyeOff,
   calendar: Calendar,
+  plus: Plus,
+  check: Check,
 };
