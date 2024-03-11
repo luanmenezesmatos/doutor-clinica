@@ -47,11 +47,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Calendar } from "@/components/ui/calendar";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { QuestionCard } from "@/components/question-card";
 
 const formSchema = z.object({
   is_active: z.boolean().optional(),
@@ -120,31 +127,28 @@ export function PatientForm() {
 
   return (
     <>
-      <Tabs defaultValue="patientData" className="space-y-4 grid">
-        <Card className="h-full w-full justify-start p-5 overflow-auto">
-          <TabsList>
-            <TabsTrigger value="patientData">Dados do Paciente</TabsTrigger>
-            <TabsTrigger value="complementaryData">
-              Dados Complementares
-            </TabsTrigger>
-            <TabsTrigger value="marketingInformation">
-              Informações de Marketing
-            </TabsTrigger>
-          </TabsList>
-        </Card>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Tabs defaultValue="patientData" className="space-y-4 grid">
+            <Card className="h-full w-full justify-start p-5 overflow-auto">
+              <TabsList>
+                <TabsTrigger value="patientData">Dados do Paciente</TabsTrigger>
+                <TabsTrigger value="complementaryData">
+                  Dados Complementares
+                </TabsTrigger>
+                <TabsTrigger value="marketingInformation">
+                  Informações de Marketing
+                </TabsTrigger>
+              </TabsList>
+            </Card>
 
-        <Card className="h-full w-full justify-start p-5 overflow-auto">
-          <TabsContent value="patientData">
-            <CardContent>
-              <b className="font-semibold">Dados pessoais</b>
+            <Card className="h-full w-full justify-start p-5 overflow-auto">
+              <TabsContent value="patientData">
+                <CardContent className="space-y-8">
+                  <b className="font-semibold">Dados pessoais</b>
 
-              <Separator className="mt-5 mb-5" />
+                  <Separator className="mt-5 mb-5" />
 
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-8"
-                >
                   <FormField
                     control={form.control}
                     name="is_active"
@@ -320,16 +324,14 @@ export function PatientForm() {
                           <FormControl>
                             <InputMask
                               type="tel"
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                               mask={
                                 (field.value?.length ?? 0) < 15
                                   ? "999.999.999-999"
                                   : "99.999.999/0001-99"
                               }
                               maskChar=""
-                              defaultValue={
-                                (patient_cpf_cnpj as string) ?? field.value
-                              }
+                              defaultValue={patient_cpf_cnpj as string}
                               value={field.value}
                               onChange={(e) => {
                                 field.onChange(e.target.value);
@@ -369,18 +371,276 @@ export function PatientForm() {
                       )}
                     />
                   </div>
-                </form>
-              </Form>
-            </CardContent>
-          </TabsContent>
-          <TabsContent value="complementaryData">
-            Dados Complementares
-          </TabsContent>
-          <TabsContent value="marketingInformation">
-            Informações de Marketing
-          </TabsContent>
-        </Card>
-      </Tabs>
+
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="identification_number"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center gap-1">
+                            <FormLabel>Número de identificação</FormLabel>
+                            <QuestionCard
+                              title="Número de identificação"
+                              description="Número do passaporte, RG internacional ou Documento de identificação"
+                            />
+                          </div>
+                          <FormControl>
+                            <Input {...field} type="text" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="control_number"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center gap-1">
+                            <FormLabel>Número de controle</FormLabel>
+                            <QuestionCard
+                              title="Número de controle"
+                              description="O sistema está configurado para controlar automaticamente este campo. Dessa forma não será possível cadastrar dois ou mais pacientes com o mesmo número."
+                            />
+                          </div>
+                          <FormControl>
+                            <Input {...field} type="text" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="nationality"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nacionalidade</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="text" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+
+                <CardContent className="space-y-8">
+                  <b className="font-semibold">Informações de contato</b>
+
+                  <Separator className="mt-5 mb-5" />
+
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-[400px]">
+                        <FormLabel>E-mail</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="email" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="cell_phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Telefone celular</FormLabel>
+                          <FormControl>
+                            <InputMask
+                              type="tel"
+                              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                              mask="(99) 99999-9999"
+                              maskChar=""
+                              value={field.value}
+                              onChange={(e) => {
+                                field.onChange(e.target.value);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="home_phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Telefone residencial</FormLabel>
+                          <FormControl>
+                            <InputMask
+                              type="tel"
+                              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                              mask="(99) 9999-9999"
+                              maskChar=""
+                              value={field.value}
+                              onChange={(e) => {
+                                field.onChange(e.target.value);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="extension"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Ramal</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="text" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <Card>
+                    <CardContent>
+                      <Accordion
+                        type="single"
+                        collapsible
+                        className="w-full pt-3"
+                      >
+                        <AccordionItem
+                          className="border-none"
+                          value="additionalInformation"
+                        >
+                          <AccordionTrigger icon={true} className="py-2 hover:no-underline">
+                            <CardHeader className="p-1 text-start">
+                              <CardTitle className="text-base font-semibold">
+                                Informações adicionais de contato
+                              </CardTitle>
+                              <CardDescription>
+                                Aqui você pode adicionar informações adicionais
+                                de contato do paciente.
+                              </CardDescription>
+                            </CardHeader>
+                          </AccordionTrigger>
+                          <AccordionContent className="space-y-8 p-4">
+                            <div className="grid md:grid-cols-2 gap-4">
+                              <FormField
+                                control={form.control}
+                                name="additional_information_business_phone"
+                                render={({ field }) => (
+                                  <FormItem className="lg:w-[240px]">
+                                    <FormLabel>Telefone comercial</FormLabel>
+                                    <FormControl>
+                                      <InputMask
+                                        type="tel"
+                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                                        mask="(99) 9999-9999"
+                                        maskChar=""
+                                        value={field.value}
+                                        onChange={(e) => {
+                                          field.onChange(e.target.value);
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="additional_information_extension_one"
+                                render={({ field }) => (
+                                  <FormItem className="lg:w-[240px]">
+                                    <FormLabel>Ramal 1</FormLabel>
+                                    <FormControl>
+                                      <Input {...field} type="text" />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-4">
+                              <FormField
+                                control={form.control}
+                                name="additional_information_messages_phone"
+                                render={({ field }) => (
+                                  <FormItem className="lg:w-[240px]">
+                                    <FormLabel>Telefone para recados</FormLabel>
+                                    <FormControl>
+                                      <InputMask
+                                        type="tel"
+                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                                        mask="(99) 9999-9999"
+                                        maskChar=""
+                                        value={field.value}
+                                        onChange={(e) => {
+                                          field.onChange(e.target.value);
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="additional_information_extension_two"
+                                render={({ field }) => (
+                                  <FormItem className="lg:w-[240px]">
+                                    <FormLabel>Ramal 2</FormLabel>
+                                    <FormControl>
+                                      <Input {...field} type="text" />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+
+                            <FormField
+                              control={form.control}
+                              name="additional_information_skype"
+                              render={({ field }) => (
+                                <FormItem className="lg:w-[400px]">
+                                  <FormLabel>Skype</FormLabel>
+                                  <FormControl>
+                                    <Input {...field} type="text" />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    </CardContent>
+                  </Card>
+                </CardContent>
+              </TabsContent>
+              <TabsContent value="complementaryData">
+                Dados Complementares
+              </TabsContent>
+              <TabsContent value="marketingInformation">
+                Informações de Marketing
+              </TabsContent>
+            </Card>
+          </Tabs>
+        </form>
+      </Form>
     </>
   );
 }
