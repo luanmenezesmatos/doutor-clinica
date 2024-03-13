@@ -1,9 +1,5 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-
-import { ReactNode } from "react";
-
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -21,7 +17,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -56,6 +51,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { QuestionCard } from "@/components/question-card";
@@ -105,14 +101,28 @@ const formSchema = z.object({
   complement: z.string().optional(),
   neighborhood: z.string().optional(),
   city: z.string().optional(),
+  cns_sus: z.string().optional(),
+  blood_factor: z.string().optional(),
+  ethnicity: z.string().optional(),
+  civil_status: z.string().optional(),
+  partner_name: z.string().optional(),
+  mother_name: z.string().optional(),
+  father_name: z.string().optional(),
+  responsible_name: z.string().optional(),
+  referral_source: z.string().optional(),
+  hobby: z
+    .string()
+    .max(1000, {
+      message: "O hobby deve ter no máximo 1000 caracteres.",
+    })
+    .optional(),
+  schooling: z.string().optional(),
+  occupation: z.string().optional(),
+  indication: z.string().optional(),
+  email_birthday_card: z.boolean().optional(),
 });
 
 export function PatientForm() {
-  const { data: patient_cpf_cnpj } = useQuery({
-    queryKey: ["patient_cpf_cnpj"],
-    retry: false,
-  });
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -254,13 +264,12 @@ export function PatientForm() {
                         <FormItem className="lg:w-[240px] flex flex-col">
                           <FormLabel>Gênero</FormLabel>
                           <FormControl>
-                            <Select {...field}>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
                               <SelectTrigger>
-                                <SelectValue>
-                                  {field.value
-                                    ? field.value
-                                    : "Selecione um gênero"}
-                                </SelectValue>
+                                <SelectValue placeholder="Selecione um gênero" />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem
@@ -315,7 +324,6 @@ export function PatientForm() {
                                   : "99.999.999/0001-99"
                               }
                               maskChar=""
-                              defaultValue={patient_cpf_cnpj as string}
                               value={field.value}
                               onChange={(e) => {
                                 field.onChange(e.target.value);
@@ -724,10 +732,416 @@ export function PatientForm() {
                 </CardContent>
               </TabsContent>
               <TabsContent value="complementaryData">
-                Dados Complementares
+                <CardContent className="space-y-8 pt-0">
+                  <b className="font-semibold">Documentação</b>
+
+                  <Separator className="mt-5 mb-5" />
+
+                  <FormField
+                    control={form.control}
+                    name="cns_sus"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-[500px]">
+                        <div className="flex items-center gap-1">
+                          <FormLabel>CNS (SUS)</FormLabel>
+                          <QuestionCard
+                            title="CNS (SUS)"
+                            description="O Cartão Nacional de Saúde (CNS) é um documento que identifica o cidadão no Sistema Único de Saúde (SUS). Ele é gratuito e pode ser solicitado em qualquer unidade de saúde do SUS. O CNS é um número único e individual que permite a identificação do cidadão em todo o território nacional, independente de onde ele tenha sido atendido."
+                          />
+                        </div>
+                        <FormControl>
+                          <Input {...field} type="text" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="blood_factor"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-[240px] flex flex-col">
+                        <div className="flex items-center gap-1">
+                          <FormLabel>Fator sanguíneo</FormLabel>
+                          <QuestionCard
+                            title="Fator sanguíneo"
+                            description="O fator sanguíneo é uma característica genética que determina o tipo de sangue de uma pessoa. O fator sanguíneo é determinado por dois genes, um herdado de cada pai. O fator sanguíneo é importante para a doação de sangue e transfusões."
+                          />
+                        </div>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Selecione o fator sanguíneo" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem
+                                value="
+                                O-"
+                              >
+                                O- (O negativo)
+                              </SelectItem>
+                              <SelectItem value="O+">
+                                O+ (O positivo)
+                              </SelectItem>
+                              <SelectItem value="A-">
+                                A- (A negativo)
+                              </SelectItem>
+                              <SelectItem value="A+">
+                                A+ (A positivo)
+                              </SelectItem>
+                              <SelectItem value="B-">
+                                B- (B negativo)
+                              </SelectItem>
+                              <SelectItem value="B+">
+                                B+ (B positivo)
+                              </SelectItem>
+                              <SelectItem value="AB-">
+                                AB- (AB negativo)
+                              </SelectItem>
+                              <SelectItem value="AB+">
+                                AB+ (AB positivo)
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+
+                <CardContent className="space-y-8">
+                  <b className="font-semibold">Dados familiares</b>
+
+                  <Separator className="mt-5 mb-5" />
+
+                  <FormField
+                    control={form.control}
+                    name="ethnicity"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-[240px] flex flex-col">
+                        <FormLabel>Etnia</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Selecione a etnia" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="branca">Branca</SelectItem>
+                              <SelectItem value="parda">Parda</SelectItem>
+                              <SelectItem value="negra">Negra</SelectItem>
+                              <SelectItem value="oriental">Oriental</SelectItem>
+                              <SelectItem value="asiatica">Asiática</SelectItem>
+                              <SelectItem value="indigena">Indígena</SelectItem>
+                              <SelectItem value="nao-declarada">
+                                Não declarada
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="civil_status"
+                      render={({ field }) => (
+                        <FormItem className="lg:w-[240px]">
+                          <FormLabel>Estado civil</FormLabel>
+                          <FormControl>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Selecione o estado civil" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="casado">Casado</SelectItem>
+                                <SelectItem value="divorciado">
+                                  Divorciado
+                                </SelectItem>
+                                <SelectItem value="solteiro">
+                                  Solteiro
+                                </SelectItem>
+                                <SelectItem value="separado">
+                                  Separado
+                                </SelectItem>
+                                <SelectItem value="viuvo">Viúvo</SelectItem>
+                                <SelectItem value="nao-informado">
+                                  Não informado
+                                </SelectItem>
+                                <SelectItem value="uniao-estavel">
+                                  União estável
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="partner_name"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Nome do cônjuge</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="text" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="mother_name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nome da mãe</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="text" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="father_name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nome do pai</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="text" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="responsible_name"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-[500px]">
+                        <FormLabel>Nome do responsável</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="text" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+
+                <CardContent className="space-y-8">
+                  <b className="font-semibold">Informações adicionais</b>
+
+                  <Separator className="mt-5 mb-5" />
+
+                  <FormField
+                    control={form.control}
+                    name="referral_source"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-[240px] flex flex-col">
+                        <FormLabel>Como conheceu a clínica?</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Selecione alguma opção" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="facebook">Facebook</SelectItem>
+                              <SelectItem value="instagram">
+                                Instagram
+                              </SelectItem>
+                              <SelectItem value="whatsapp">Whatsapp</SelectItem>
+                              <SelectItem value="pesquisa-google">
+                                Pesquisa no Google
+                              </SelectItem>
+                              <SelectItem value="indicacao-profissional">
+                                Indicação de profissional
+                              </SelectItem>
+                              <SelectItem value="indicacao-cliente">
+                                Indicação de cliente
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
               </TabsContent>
               <TabsContent value="marketingInformation">
-                Informações de Marketing
+                <CardContent className="space-y-8 pt-0">
+                  <b className="font-semibold">Outros dados</b>
+
+                  <Separator className="mt-5 mb-5" />
+
+                  <div>
+                    <b className="font-semibold text-base">Aniversário</b>
+
+                    <p className="text-sm">
+                      A data de nascimento ainda não foi cadastrada.
+                    </p>
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="hobby"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Hobby</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            className="min-h-[80px]"
+                            minLength={10}
+                            maxLength={1000}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription className="flex gap-5 text-sm text-black">
+                          <p>Caracteres: {field.value?.length ?? 0}</p>
+                          <p>Limite: 1000</p>
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="schooling"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-[240px] flex flex-col">
+                        <FormLabel>Escolaridade</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Selecione a escolaridade" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pre-escola">
+                                Pré-escola
+                              </SelectItem>
+                              <SelectItem value="analfabeto">
+                                Analfabeto
+                              </SelectItem>
+                              <SelectItem value="fundamental-incompleto">
+                                Fundamental incompleto
+                              </SelectItem>
+                              <SelectItem value="fundamental-completo">
+                                Fundamental completo
+                              </SelectItem>
+                              <SelectItem value="medio-incompleto">
+                                Médio incompleto
+                              </SelectItem>
+                              <SelectItem value="medio-completo">
+                                Médio completo
+                              </SelectItem>
+                              <SelectItem value="superior-incompleto">
+                                Superior incompleto
+                              </SelectItem>
+                              <SelectItem value="superior-completo">
+                                Superior completo
+                              </SelectItem>
+                              <SelectItem value="pos-graduado">
+                                Pós-graduado
+                              </SelectItem>
+                              <SelectItem value="mestrado">Mestrado</SelectItem>
+                              <SelectItem value="doutorado">
+                                Doutorado
+                              </SelectItem>
+                              <SelectItem value="pos-doutorado">
+                                Pós-doutorado
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="occupation"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-[400px]">
+                        <FormLabel>Profissão / Ocupação</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="text" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="indication"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-[400px]">
+                        <FormLabel>Indicação</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="text" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+
+                <CardContent className="space-y-8">
+                  <b className="font-semibold">Notificações de aniversário</b>
+
+                  <Separator className="mt-5 mb-5" />
+
+                  <FormField
+                    control={form.control}
+                    name="email_birthday_card"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col items-start">
+                        <FormLabel>
+                          Enviar automaticamente um cartão de aniversário por
+                          e-mail?
+                        </FormLabel>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
               </TabsContent>
             </Card>
             <Separator className="mt-5 mb-5" />

@@ -1,6 +1,5 @@
 import { Heading } from "@/components/ui/heading";
 import Breadcrumb from "@/components/breadcrumb";
-import { Dialog } from "@/components/platform/patients/new/dialog";
 import { PatientForm } from "@/components/platform/patients/new/form";
 
 export default async function NewPatientPage() {
@@ -20,8 +19,6 @@ export default async function NewPatientPage() {
             description="Adicione um novo paciente à sua lista"
           />
         </div>
-
-        <Dialog />
 
         <PatientForm />
       </div>

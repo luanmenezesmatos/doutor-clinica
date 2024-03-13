@@ -83,11 +83,8 @@ model Patient {
   rg_issuing_office              String?
   date_of_birth                  DateTime
   gender                         String?
-  mother_name                    String?
-  father_name                    String?
   nationality                    String?
   financial_officer              PatientFinancialOfficer?
-  occupation                     String?
   address                        PatientAddress?
   identification_number          String?
   control_number                 String?
@@ -97,6 +94,7 @@ model Patient {
   extension                      String?
   additional_information         PatientAdditionalInformation[]
   additional_contact_information PatientAdditionalContactInformation[]
+  marketing_information          PatientMarketingInformation[]
   medical_record                 PatientMedicalRecord[]
   is_active                      Boolean?                              @default(true)
   is_foreign                     Boolean?                              @default(false)
@@ -133,12 +131,43 @@ model PatientMedicalRecord {
   patientId String   @unique @db.ObjectId
 }
 
+model PatientMarketingInformation {
+  id         String                                @id @default(auto()) @map("_id") @db.ObjectId
+  hobby      String?
+  schooling  String?
+  indication String?
+  birthday   PatientMarketingBirthdayInformation[]
+  Patient    Patient?                              @relation(fields: [patientId], references: [id])
+  patientId  String?                               @db.ObjectId
+}
+
+model PatientMarketingBirthdayInformation {
+  id                            String                       @id @default(auto()) @map("_id") @db.ObjectId
+  email_birthday_card           Boolean?                     @default(true)
+  PatientMarketingInformation   PatientMarketingInformation? @relation(fields: [patientMarketingInformationId], references: [id])
+  patientMarketingInformationId String?                      @db.ObjectId
+}
+
 model PatientAdditionalInformation {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  cns_sus      String?
-  blood_factor String?
-  Patient      Patient? @relation(fields: [patientId], references: [id])
-  patientId    String?  @db.ObjectId
+  id              String                               @id @default(auto()) @map("_id") @db.ObjectId
+  cns_sus         String?
+  blood_factor    String?
+  family          PatientAdditionalFamilyInformation[]
+  referral_source String?
+  Patient         Patient?                             @relation(fields: [patientId], references: [id])
+  patientId       String?                              @db.ObjectId
+}
+
+model PatientAdditionalFamilyInformation {
+  id                             String                        @id @default(auto()) @map("_id") @db.ObjectId
+  ethnicity                      String?
+  civil_status                   String?
+  partner_name                   String?
+  mother_name                    String?
+  father_name                    String?
+  responsible_name               String?
+  PatientAdditionalInformation   PatientAdditionalInformation? @relation(fields: [patientAdditionalInformationId], references: [id])
+  patientAdditionalInformationId String?                       @db.ObjectId
 }
 
 model PatientAdditionalContactInformation {
