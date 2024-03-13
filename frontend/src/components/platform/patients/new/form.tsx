@@ -7,6 +7,9 @@ import { CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import axios from "axios";
+
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -55,6 +58,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { QuestionCard } from "@/components/question-card";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   is_active: z.boolean().optional(),
@@ -123,6 +127,8 @@ const formSchema = z.object({
 });
 
 export function PatientForm() {
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -131,8 +137,35 @@ export function PatientForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const { mutateAsync: addPatient } = useMutation({
+    mutationFn: async ({ full_civil_name }: { full_civil_name: string }) => {
+      await axios.post(
+        "/api/platform/patients/create",
+        {
+          full_civil_name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer doutorclinica`,
+          },
+        }
+      );
+    },
+    onSuccess: () => {
+      toast.success("Paciente adicionado com sucesso!");
+
+      queryClient.invalidateQueries({
+        queryKey: ["patients"],
+      });
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+
+    await addPatient({
+      full_civil_name: values.full_civil_name,
+    });
   }
 
   return (

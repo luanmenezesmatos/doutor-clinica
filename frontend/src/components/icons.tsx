@@ -19,6 +19,7 @@ import {
   Calendar,
   Plus,
   Check,
+  ArrowUpDown
 } from "lucide-react";
 
 export const Icons = {
@@ -42,4 +43,5 @@ export const Icons = {
   calendar: Calendar,
   plus: Plus,
   check: Check,
+  arrowUpDown: ArrowUpDown
 };

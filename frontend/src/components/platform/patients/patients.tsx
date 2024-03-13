@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 
+import { useQuery } from "@tanstack/react-query";
+
+import { db as prisma } from "@/lib/db";
 import { cn } from "@/lib/utils";
+
+import { Patient, columns } from "./table/columns";
+import { DataTable } from "./table/data-table";
 
 import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
@@ -11,6 +17,22 @@ import Breadcrumb from "@/components/breadcrumb";
 
 export function Patients() {
   const breadcrumbItems = [{ title: "Pacientes", link: "" }];
+
+  const { data } = useQuery({
+    queryKey: ["patients"],
+    queryFn: async () => {
+      const patients = await prisma.patient.findMany();
+
+      const formattedData = patients.map((patient) => {
+        return {
+          id: patient.id,
+          full_civil_name: patient.full_civil_name,
+        };
+      });
+
+      return formattedData;
+    },
+  });
 
   return (
     <>
@@ -29,6 +51,10 @@ export function Patients() {
               <span className="ml-2">Adicionar paciente</span>
             </Link>
           </div>
+        </div>
+
+        <div className="rounded-md border">
+          <DataTable columns={columns} data={data || []} />
         </div>
       </div>
     </>
