@@ -15,13 +15,17 @@ import { buttonVariants } from "@/components/ui/button";
 
 import Breadcrumb from "@/components/breadcrumb";
 
-export function Patients() {
+export function Patients({ data }: { data: Patient[] }) {
   const breadcrumbItems = [{ title: "Pacientes", link: "" }];
 
-  const { data } = useQuery({
+  /* const { data } = useQuery({
     queryKey: ["patients"],
     queryFn: async () => {
+      console.log("oi");
+
       const patients = await prisma.patient.findMany();
+
+      console.log("patients", patients);
 
       const formattedData = patients.map((patient) => {
         return {
@@ -30,9 +34,11 @@ export function Patients() {
         };
       });
 
+      console.log("formattedData", formattedData);
+
       return formattedData;
     },
-  });
+  }); */
 
   return (
     <>

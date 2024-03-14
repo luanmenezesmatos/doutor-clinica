@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -9,6 +11,8 @@ import { cn } from "@/lib/utils";
 
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
+
+import { db as prisma } from "@/lib/db";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -127,6 +131,7 @@ const formSchema = z.object({
 });
 
 export function PatientForm() {
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -150,19 +155,18 @@ export function PatientForm() {
           },
         }
       );
-    },
-    onSuccess: () => {
+
       toast.success("Paciente adicionado com sucesso!");
 
-      queryClient.invalidateQueries({
+      /* queryClient.invalidateQueries({
         queryKey: ["patients"],
-      });
+      }); */
+
+      router.replace("/plataforma/pacientes");
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     await addPatient({
       full_civil_name: values.full_civil_name,
     });
