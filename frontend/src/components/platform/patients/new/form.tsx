@@ -143,11 +143,11 @@ export function PatientForm() {
   });
 
   const { mutateAsync: addPatient } = useMutation({
-    mutationFn: async ({ full_civil_name }: { full_civil_name: string }) => {
+    mutationFn: async ({ values }: { values: z.infer<typeof formSchema> }) => {
       await axios.post(
         "/api/platform/patients/create",
         {
-          full_civil_name,
+          values,
         },
         {
           headers: {
@@ -167,8 +167,10 @@ export function PatientForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+
     await addPatient({
-      full_civil_name: values.full_civil_name,
+      values,
     });
   }
 

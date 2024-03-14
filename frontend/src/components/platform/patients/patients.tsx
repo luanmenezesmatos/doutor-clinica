@@ -59,9 +59,7 @@ export function Patients({ data }: { data: Patient[] }) {
           </div>
         </div>
 
-        <div className="rounded-md border">
-          <DataTable columns={columns} data={data || []} />
-        </div>
+        <DataTable columns={columns} data={data || []} />
       </div>
     </>
   );

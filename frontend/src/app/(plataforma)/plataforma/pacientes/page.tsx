@@ -9,6 +9,7 @@ export default async function PatientsPage() {
     return {
       id: patient.id,
       full_civil_name: patient.full_civil_name,
+      date_of_birth: patient.date_of_birth.toISOString(),
     };
   });
 

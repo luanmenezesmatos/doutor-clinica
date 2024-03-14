@@ -5,9 +5,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
 export type Patient = {
   id: string;
   full_civil_name: string;
+  date_of_birth: string;
 };
 
 export const columns: ColumnDef<Patient>[] = [
@@ -27,6 +31,30 @@ export const columns: ColumnDef<Patient>[] = [
     cell: ({ getValue }) => {
       const name = getValue() as string;
       return <span className="font-semibold">{name}</span>;
+    },
+  },
+  {
+    accessorKey: "date_of_birth",
+    header: "Data de Nascimento",
+    cell: ({ getValue }) => {
+      const dateOfBirth = getValue() as string;
+
+      console.log(dateOfBirth);
+
+      /* const date = new Date(dateOfBirth);
+      const formattedDate = date.toLocaleDateString("pt-BR");
+
+      // Converter para 10/10/2021
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      const age = today.getFullYear() - birthDate.getFullYear();
+
+      return (
+        <div className="justify-center items-center">
+          <p>{formattedDate}</p>
+          <p className="text-gray-500 text-sm">({age} anos)</p>
+        </div>
+      ); */
     },
   },
   {

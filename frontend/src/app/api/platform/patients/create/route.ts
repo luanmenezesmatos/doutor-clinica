@@ -11,11 +11,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { full_civil_name } = await request.json();
+    const { values } = await request.json();
+
+    console.log(values);
 
     const patient = await prisma.patient.findFirst({
       where: {
-        full_civil_name,
+        full_civil_name: values.full_civil_name,
       },
     });
 
@@ -25,17 +27,13 @@ export async function POST(request: NextRequest) {
         error: "Patient already exists!",
       });
     } else {
-      await prisma.patient.create({
+      console.log("paciente passou");
+
+      /* await prisma.patient.create({
         data: {
-          full_civil_name: full_civil_name,
-          date_of_birth: new Date(),
-          clinic: {
-            connect: {
-              id: "65e1fda984f12d594ad2d1f6",
-            },
-          },
-        },
-      });
+          full_civil_name: values.full_civil_name
+        }
+      }); */
 
       return Response.json({
         success: true,
