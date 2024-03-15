@@ -77,14 +77,12 @@ model Patient {
   id                             String                                @id @default(auto()) @map("_id") @db.ObjectId
   full_civil_name                String
   full_social_name               String?
-  cpf                            String?
-  cnpj                           String?
+  cpf_cnpj                       String?
   rg                             String?
   rg_issuing_office              String?
   date_of_birth                  DateTime
   gender                         String?
   nationality                    String?
-  financial_officer              PatientFinancialOfficer?
   address                        PatientAddress?
   identification_number          String?
   control_number                 String?
@@ -181,17 +179,6 @@ model PatientAdditionalContactInformation {
   updatedAt      DateTime? @updatedAt
   patient        Patient   @relation(fields: [patientId], references: [id])
   patientId      String    @unique @db.ObjectId
-}
-
-model PatientFinancialOfficer {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  email     String
-  phone     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  patient   Patient  @relation(fields: [patientId], references: [id])
-  patientId String   @unique @db.ObjectId
 }
 
 enum Role {

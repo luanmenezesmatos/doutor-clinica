@@ -12,6 +12,9 @@ export type Patient = {
   id: string;
   full_civil_name: string;
   date_of_birth: string;
+  cell_phone: string;
+  email: string;
+  is_active: boolean;
 };
 
 export const columns: ColumnDef<Patient>[] = [
@@ -23,7 +26,7 @@ export const columns: ColumnDef<Patient>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Nome
+          Nome do Paciente
           <Icons.arrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -39,22 +42,53 @@ export const columns: ColumnDef<Patient>[] = [
     cell: ({ getValue }) => {
       const dateOfBirth = getValue() as string;
 
-      console.log(dateOfBirth);
+      return (
+        <>
+          <span>{format(new Date(dateOfBirth), "dd/MM/yyyy")}</span>
+          <span className="ml-2 text-gray-500 font-semibold">
+            (
+            {formatDistance(new Date(dateOfBirth), new Date(), {
+              locale: ptBR,
+            })}
+            )
+          </span>
+        </>
+      );
+    },
+  },
+  {
+    accessorKey: "cell_phone",
+    header: "Telefone Celular",
+    cell: ({ getValue }) => {
+      const cellPhone = getValue() as string;
 
-      /* const date = new Date(dateOfBirth);
-      const formattedDate = date.toLocaleDateString("pt-BR");
+      return <span>{cellPhone}</span>;
+    },
+  },
+  {
+    accessorKey: "email",
+    header: "E-mail",
+    cell: ({ getValue }) => {
+      const email = getValue() as string;
 
-      // Converter para 10/10/2021
-      const today = new Date();
-      const birthDate = new Date(dateOfBirth);
-      const age = today.getFullYear() - birthDate.getFullYear();
+      return <span>{email ? email : "Não informado"}</span>;
+    },
+  },
+  {
+    accessorKey: "is_active",
+    header: "Situação",
+    cell: ({ getValue }) => {
+      const isActive = getValue() as boolean;
 
       return (
-        <div className="justify-center items-center">
-          <p>{formattedDate}</p>
-          <p className="text-gray-500 text-sm">({age} anos)</p>
-        </div>
-      ); */
+        <span
+          className={`px-2 py-1 rounded-md ${
+            isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+          }`}
+        >
+          {isActive ? "Ativo" : "Inativo"}
+        </span>
+      );
     },
   },
   {

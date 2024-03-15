@@ -9,7 +9,7 @@ import { CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 import { db as prisma } from "@/lib/db";
@@ -63,6 +63,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { QuestionCard } from "@/components/question-card";
 import { toast } from "sonner";
+
+import { createPatient } from "@/app/(plataforma)/plataforma/paciente/novo/actions";
 
 const formSchema = z.object({
   is_active: z.boolean().optional(),
@@ -132,7 +134,6 @@ const formSchema = z.object({
 
 export function PatientForm() {
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -144,7 +145,7 @@ export function PatientForm() {
 
   const { mutateAsync: addPatient } = useMutation({
     mutationFn: async ({ values }: { values: z.infer<typeof formSchema> }) => {
-      await axios.post(
+      /* await axios.post(
         "/api/platform/patients/create",
         {
           values,
@@ -154,21 +155,31 @@ export function PatientForm() {
             Authorization: `Bearer doutorclinica`,
           },
         }
-      );
+      ); */
 
-      toast.success("Paciente adicionado com sucesso!");
+      const patient = await createPatient({
+        ...values,
+      });
+
+      if (patient.success) {
+        toast.message("Paciente cadastrado com sucesso!", {
+          description: "O paciente foi cadastrado com sucesso!",
+        });
+
+        router.replace("/plataforma/pacientes");
+      } else {
+        toast.message("Erro ao cadastrar paciente!", {
+          description: patient.message,
+        });
+      }
 
       /* queryClient.invalidateQueries({
         queryKey: ["patients"],
       }); */
-
-      router.replace("/plataforma/pacientes");
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     await addPatient({
       values,
     });
@@ -311,16 +322,25 @@ export function PatientForm() {
                                 <SelectValue placeholder="Selecione um gênero" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem
-                                  value="
-                                Masculino"
-                                >
+                                <SelectItem value="sem-genero">
+                                  Sem gênero
+                                </SelectItem>
+                                <SelectItem value="masculino">
                                   Masculino
                                 </SelectItem>
-                                <SelectItem value="Feminino">
+                                <SelectItem value="feminino">
                                   Feminino
                                 </SelectItem>
-                                <SelectItem value="Outro">Outro</SelectItem>
+                                <SelectItem value="neutro">Neutro</SelectItem>
+                                <SelectItem value="transgenero">
+                                  Transgênero
+                                </SelectItem>
+                                <SelectItem value="intersexo">
+                                  Intersexo
+                                </SelectItem>
+                                <SelectItem value="outros">
+                                  Outros/Preferir não informar
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                           </FormControl>

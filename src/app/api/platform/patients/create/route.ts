@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   try {
     const { values } = await request.json();
 
-    console.log(values);
+    console.log("values", values);
 
     const patient = await prisma.patient.findFirst({
       where: {
@@ -28,6 +28,10 @@ export async function POST(request: NextRequest) {
       });
     } else {
       console.log("paciente passou");
+      
+      const newPatient = {
+        
+      }
 
       /* await prisma.patient.create({
         data: {

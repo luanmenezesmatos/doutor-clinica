@@ -10,6 +10,9 @@ export default async function PatientsPage() {
       id: patient.id,
       full_civil_name: patient.full_civil_name,
       date_of_birth: patient.date_of_birth.toISOString(),
+      cell_phone: patient.cell_phone ?? '',
+      email: patient.email ?? '',
+      is_active: patient.is_active ?? false,
     };
   });
 

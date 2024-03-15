@@ -65,7 +65,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="rounded-md border bg-white">
+      <div className="grid rounded-md border bg-white p-4">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -116,7 +116,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 py-4 bg-white">
+      <div className="flex items-center justify-end space-x-2 p-4 bg-white rounded-md">
         <Button
           variant="outline"
           size="sm"
