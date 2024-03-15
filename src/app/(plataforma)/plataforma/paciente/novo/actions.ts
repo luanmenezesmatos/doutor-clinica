@@ -6,13 +6,13 @@ import { createPatientSchema } from "./schema";
 
 import { getCurrentUser } from "@/lib/auth/session";
 
+import { generateControlNumber } from "@/lib/utils";
+
 export async function createPatient(
   values: z.infer<typeof createPatientSchema>
 ) {
   try {
     const currentUser = await getCurrentUser();
-
-    console.log("currentUser", currentUser);
 
     if (!currentUser) {
       return {
@@ -27,8 +27,6 @@ export async function createPatient(
         email: currentUser?.email,
       },
     });
-
-    console.log("user", user);
 
     if (!user) {
       return {
@@ -80,7 +78,7 @@ export async function createPatient(
           },
         },
         identification_number: values.identification_number,
-        control_number: values.control_number,
+        control_number: values.control_number || generateControlNumber(),
         email: values.email,
         cell_phone: values.cell_phone,
         home_phone: values.home_phone,

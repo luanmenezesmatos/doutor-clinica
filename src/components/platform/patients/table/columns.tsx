@@ -1,15 +1,22 @@
 "use client";
 
+import Link from "next/link";
+
 import { ColumnDef } from "@tanstack/react-table";
 
+import { cn } from "@/lib/utils";
+
 import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
+import { FaWhatsapp } from "react-icons/fa";
+
 export type Patient = {
   id: string;
+  control_number: string;
   full_civil_name: string;
   date_of_birth: string;
   cell_phone: string;
@@ -18,6 +25,15 @@ export type Patient = {
 };
 
 export const columns: ColumnDef<Patient>[] = [
+  {
+    accessorKey: "control_number",
+    header: "Número de Controle",
+    cell: ({ getValue }) => {
+      const controlNumber = getValue() as string;
+
+      return <span>{controlNumber}</span>;
+    },
+  },
   {
     accessorKey: "full_civil_name",
     header: ({ column }) => {
@@ -33,6 +49,7 @@ export const columns: ColumnDef<Patient>[] = [
     },
     cell: ({ getValue }) => {
       const name = getValue() as string;
+
       return <span className="font-semibold">{name}</span>;
     },
   },
@@ -62,7 +79,22 @@ export const columns: ColumnDef<Patient>[] = [
     cell: ({ getValue }) => {
       const cellPhone = getValue() as string;
 
-      return <span>{cellPhone}</span>;
+      return (
+        <div className="flex flex-row items-center space-x-2">
+          <span>{cellPhone}</span>
+          <Link
+            href={`https://wa.me/+55${cellPhone.replace(/\D/g, "")}`}
+            passHref
+            target="_blank"
+            className={cn(
+              buttonVariants({ variant: "outline", size: "icon" }),
+              "h-6 w-6"
+            )}
+          >
+            <FaWhatsapp />
+          </Link>
+        </div>
+      );
     },
   },
   {
@@ -94,17 +126,25 @@ export const columns: ColumnDef<Patient>[] = [
   {
     accessorKey: "id",
     header: "Ações",
-    cell: ({ getValue }) => {
+    cell: ({ getValue, row }) => {
       const id = getValue() as string;
+      const controlNumber = row.original.control_number;
+
       return (
-        <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="sm">
-            <Icons.eye className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm">
-            <Icons.closeCircle className="h-4 w-4" />
-          </Button>
-        </div>
+        <>
+          <div className="flex items-center space-x-2">
+            <Link
+              href={`/plataforma/paciente/visualiza/${controlNumber}`}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+            >
+              <Icons.eye className="h-4 w-4" />
+            </Link>
+
+            <Button variant="outline" size="sm">
+              <Icons.closeCircle className="h-4 w-4" />
+            </Button>
+          </div>
+        </>
       );
     },
   },

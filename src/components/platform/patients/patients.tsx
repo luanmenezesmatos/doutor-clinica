@@ -18,28 +18,6 @@ import Breadcrumb from "@/components/breadcrumb";
 export function Patients({ data }: { data: Patient[] }) {
   const breadcrumbItems = [{ title: "Pacientes", link: "" }];
 
-  /* const { data } = useQuery({
-    queryKey: ["patients"],
-    queryFn: async () => {
-      console.log("oi");
-
-      const patients = await prisma.patient.findMany();
-
-      console.log("patients", patients);
-
-      const formattedData = patients.map((patient) => {
-        return {
-          id: patient.id,
-          full_civil_name: patient.full_civil_name,
-        };
-      });
-
-      console.log("formattedData", formattedData);
-
-      return formattedData;
-    },
-  }); */
-
   return (
     <>
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
