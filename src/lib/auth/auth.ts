@@ -37,19 +37,51 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Senha incorreta.");
           }
 
-          return user;
+          return {
+            ...user,
+          };
         } catch (error: any) {
           throw new Error(error.message);
         }
       },
     }),
   ],
+  callbacks: {
+    async session({ token, session }) {
+      if (token.role && session.user) {
+        session.user.role = token.role as
+          | "MANAGER"
+          | "CLINIC"
+          | "DOCTOR"
+          | "DEMO";
+      }
+
+      return session;
+    },
+    async jwt({ token }) {
+      if (!token.email) return token;
+
+      const existingUser = await prisma.user.findUnique({
+        where: { email: token.email },
+      });
+
+      if (!existingUser) return token;
+
+      token.role = existingUser.role;
+
+      return token;
+    },
+  },
   pages: {
     signIn: "/entrar",
   },
   session: {
     strategy: "jwt",
+    maxAge: 4 * 60 * 60, // 4 hours
+  },
+  jwt: {
+    maxAge: 4 * 60 * 60, // 4 hours
   },
   secret: process.env.NEXTAUTH_SECRET,
-  // debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === "development",
 };

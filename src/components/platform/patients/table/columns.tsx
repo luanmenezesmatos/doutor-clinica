@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -8,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 import { Icons } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { CardContent } from "@/components/ui/card";
 
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -25,6 +27,23 @@ export type Patient = {
 };
 
 export const columns: ColumnDef<Patient>[] = [
+  {
+    accessorKey: "id",
+    header: "",
+    cell: () => {
+      return (
+        <CardContent className="p-0">
+          <Image
+            className="rounded-lg"
+            src="/images/png/user.png"
+            alt="Doctor"
+            width={50}
+            height={50}
+          />
+        </CardContent>
+      );
+    },
+  },
   {
     accessorKey: "control_number",
     header: "Número de Controle",

@@ -29,3 +29,29 @@ export function generateControlNumber(length: number = 8) {
 
   return control_number;
 }
+
+export function calculateAge(date: Date | string) {
+  const today = new Date();
+  const birthDate = new Date(date);
+  const ageDiff = today.getTime() - birthDate.getTime();
+  const ageDate = new Date(ageDiff);
+  const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+  let ageString = "";
+  if (calculatedAge === 0) {
+    const monthDiff = ageDate.getUTCMonth();
+    const monthWord = monthDiff === 1 ? "mês" : "meses";
+    ageString = `${monthDiff} ${monthWord}`;
+  } else {
+    const yearWord = calculatedAge === 1 ? "ano" : "anos";
+    ageString = `${calculatedAge} ${yearWord}`;
+  }
+
+  return ageString;
+}
+
+export function dateFormatter(date: Date | string, style: "full" | "long" | "medium" | "short" = "short") {
+  return new Intl.DateTimeFormat("pt-BR", {
+    dateStyle: style,
+  }).format(new Date(date));
+}

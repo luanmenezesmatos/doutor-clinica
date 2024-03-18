@@ -21,6 +21,12 @@ import {
   Plus,
   Check,
   ArrowUpDown,
+  User,
+  List,
+  Stethoscope,
+  Pill,
+  AlertTriangle,
+  Search
 } from "lucide-react";
 
 export const Icons = {
@@ -45,6 +51,12 @@ export const Icons = {
   plus: Plus,
   check: Check,
   arrowUpDown: ArrowUpDown,
+  user: User,
+  list: List,
+  stethoscope: Stethoscope,
+  pill: Pill,
+  alert: AlertTriangle,
+  search: Search,
   whatsapp: ({ ...props }: LucideProps) => (
     <svg viewBox="0 0 32 32">
       <path

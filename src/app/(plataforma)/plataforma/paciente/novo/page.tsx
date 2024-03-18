@@ -1,5 +1,6 @@
 import { Heading } from "@/components/ui/heading";
 import Breadcrumb from "@/components/breadcrumb";
+
 import { PatientForm } from "@/components/platform/patients/new/form";
 
 export default async function NewPatientPage() {

@@ -1,8 +1,9 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
+import { NextRequestWithAuth } from "next-auth/middleware";
 
-export function middleware(req: NextRequest) {
-  if (req.nextUrl.pathname.startsWith("/api/platform")) {
-    const authorization = req.headers.get("authorization");
+export function middleware(request: NextRequestWithAuth) {
+  if (request.nextUrl.pathname.startsWith("/api/platform")) {
+    const authorization = request.headers.get("authorization");
     const authToken = process.env.APP_API_AUTHORIZATION_TOKEN!;
 
     const bearerToken = authorization?.split(" ")[1];

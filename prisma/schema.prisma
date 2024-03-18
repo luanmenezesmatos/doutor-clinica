@@ -92,6 +92,7 @@ model Patient {
   extension                      String?
   additional_information         PatientAdditionalInformation[]
   additional_contact_information PatientAdditionalContactInformation[]
+  additional_family_information  PatientAdditionalFamilyInformation[]
   marketing_information          PatientMarketingInformation[]
   medical_record                 PatientMedicalRecord[]
   is_active                      Boolean?                              @default(true)
@@ -166,6 +167,8 @@ model PatientAdditionalFamilyInformation {
   responsible_name               String?
   PatientAdditionalInformation   PatientAdditionalInformation? @relation(fields: [patientAdditionalInformationId], references: [id])
   patientAdditionalInformationId String?                       @db.ObjectId
+  Patient                        Patient?                      @relation(fields: [patientId], references: [id])
+  patientId                      String?                       @db.ObjectId
 }
 
 model PatientAdditionalContactInformation {
