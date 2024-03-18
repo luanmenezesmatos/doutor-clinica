@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth/auth";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 

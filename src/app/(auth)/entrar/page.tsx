@@ -6,7 +6,7 @@ import { RedirectType, redirect } from "next/navigation";
 
 import { Suspense } from "react";
 
-import { getCurrentUser } from "@/lib/auth/session";
+import { currentUser } from "@/lib/auth/auth";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SignInPage() {
-  const user = await getCurrentUser();
+  const user = await currentUser();
 
   if (user) {
     redirect("/plataforma", RedirectType.push);

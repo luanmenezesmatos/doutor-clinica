@@ -1,15 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-
-import { useMutation } from "@tanstack/react-query";
+import { useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-import { cn } from "@/lib/utils";
+import { loginSchema } from "@/lib/validations/auth";
 
 import { Icons } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -23,42 +20,38 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { PasswordInput } from "../password-input";
+import { PasswordInput } from "@/components/password-input";
+
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 
 import { toast } from "sonner";
 
-import { signIn } from "next-auth/react";
-
-const formSchema = z.object({
-  email: z
-    .string({ required_error: "O e-mail é obrigatório" })
-    .email({ message: "E-mail inválido" }),
-  password: z
-    .string({ required_error: "A senha é obrigatória" })
-    .min(8, { message: "A senha deve ter no mínimo 8 caracteres" }),
-});
+import { login } from "@/actions/login";
 
 export function UserLoginAuth() {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const { mutate: mutateAuthUser, isPending: isLoading } = useMutation({
+  /* const { mutate: mutateAuthUser, isPending: isLoading } = useMutation({
     mutationKey: ["mutateLogin"],
-    mutationFn: async (values: z.infer<typeof formSchema>) => {
+    mutationFn: async (values: z.infer<typeof loginSchema>) => {
       const res = await signIn<"credentials">("credentials", {
         email: values.email,
         password: values.password,
-        redirect: false,
+        redirectTo: "/plataforma",
       });
 
-      if (res?.error) {
+      console.log(res);
+
+      /* if (res?.error) {
         return toast.message("Ocorreu um erro ao efetuar o login!", {
           description: res.error,
         });
@@ -71,10 +64,43 @@ export function UserLoginAuth() {
     onError: (error) => {
       toast.error(error.message);
     },
-  });
+  }); */
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    mutateAuthUser(values);
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "E-mail já está em uso com um provedor diferente!"
+      : "";
+
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    setError("");
+    setSuccess("");
+
+    startTransition(() => {
+      login(values, callbackUrl)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+
+          /* if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+
+          if (data?.twoFactor) {
+            setShowTwoFactor(true);
+          } */
+        })
+        .catch(() => setError("Ocorreu um erro ao efetuar o login!"));
+    });
   }
 
   return (
@@ -127,12 +153,14 @@ export function UserLoginAuth() {
               />
             </div>
           </div>
+          <FormError message={error || urlError} />
+          <FormSuccess message={success} />
           <Button
             type="submit"
             className={(buttonVariants({ variant: "default" }), "w-full")}
-            disabled={isLoading}
+            disabled={isPending}
           >
-            {isLoading && (
+            {isPending && (
               <Icons.loader className="animate-spin mr-2 w-4 h-4" />
             )}
             Entrar

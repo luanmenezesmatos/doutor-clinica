@@ -1,51 +1,52 @@
-import { NextResponse, NextRequest } from "next/server";
-import { NextRequestWithAuth } from "next-auth/middleware";
+import NextAuth from "next-auth";
 
-export function middleware(request: NextRequestWithAuth) {
-  if (request.nextUrl.pathname.startsWith("/api/platform")) {
-    const authorization = request.headers.get("authorization");
-    const authToken = process.env.APP_API_AUTHORIZATION_TOKEN!;
+import authConfig from "@/auth.config";
+import {
+  DEFAULT_LOGIN_REDIRECT,
+  apiAuthPrefix,
+  authRoutes,
+  publicRoutes,
+} from "@/routes";
 
-    const bearerToken = authorization?.split(" ")[1];
+const { auth } = NextAuth(authConfig);
 
-    if (!authorization) {
-      return Response.json(
-        {
-          success: false,
-          error:
-            "Access denied. You must be authorized to access this resource.",
-        },
-        {
-          status: 401,
-        }
-      );
-    }
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
 
-    if (!bearerToken) {
-      return Response.json(
-        {
-          success: false,
-          error:
-            "Please provide a valid bearer token in the authorization header.",
-        },
-        {
-          status: 401,
-        }
-      );
-    }
+  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-    if (bearerToken !== authToken) {
-      return Response.json(
-        {
-          success: false,
-          error: "The provided bearer token is invalid or has expired.",
-        },
-        {
-          status: 401,
-        }
-      );
-    }
-
-    return NextResponse.next();
+  if (isApiAuthRoute) {
+    return;
   }
-}
+
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    }
+
+    return;
+  }
+
+  if (!isLoggedIn && !isPublicRoute) {
+    let callbackUrl = nextUrl.pathname;
+
+    if (nextUrl.search) {
+      callbackUrl += nextUrl.search;
+    }
+
+    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+    return Response.redirect(
+      new URL(`/entrar?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+    );
+  }
+
+  return;
+});
+
+export const config = {
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};

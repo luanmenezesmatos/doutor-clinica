@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getCurrentUser } from "@/lib/auth/session";
+import { currentUser } from "@/lib/auth/auth";
 
 import { RedirectType, redirect } from "next/navigation";
 
@@ -15,7 +15,7 @@ interface PlatformLayoutProps {
 export default async function PlatformLayout({
   children,
 }: PlatformLayoutProps) {
-  const user = await getCurrentUser();
+  const user = await currentUser();
 
   if (!user) {
     redirect("/entrar", RedirectType.replace);

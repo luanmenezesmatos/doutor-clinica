@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { registerSchema } from "@/lib/validations/auth";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
 
@@ -32,33 +33,11 @@ import {
 } from "@/components/ui/select";
 import { PasswordInput } from "../password-input";
 
-import { toast } from "sonner";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
+import { register } from "@/actions/register";
 
-const formSchema = z
-  .object({
-    name: z
-      .string({ required_error: "O nome é obrigatório" })
-      .min(3, { message: "O nome deve ter no mínimo 3 caracteres" }),
-    email: z
-      .string({ required_error: "O e-mail é obrigatório" })
-      .email({ message: "E-mail inválido" }),
-    password: z
-      .string({ required_error: "A senha é obrigatória" })
-      .min(8, { message: "A senha deve ter no mínimo 8 caracteres" }),
-    confirm_password: z
-      .string({ required_error: "A confirmação de senha é obrigatória" })
-      .min(8, {
-        message: "A confirmação da senha deve ter no mínimo 8 caracteres",
-      }),
-    clinic_name: z.string({
-      required_error: "O nome da clínica é obrigatório",
-    }),
-    occupation: z.string({ required_error: "A profissão é obrigatória" }),
-  })
-  .refine((data) => data.password === data.confirm_password, {
-    path: ["confirm_password"],
-    message: "As senhas não coincidem",
-  });
+import { toast } from "sonner";
 
 export function UserRegisterAuth() {
   const router = useRouter();
@@ -66,8 +45,12 @@ export function UserRegisterAuth() {
   const desktop = "(min-width: 768px)";
   const isDesktop = useMediaQuery(desktop);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -78,7 +61,7 @@ export function UserRegisterAuth() {
     },
   });
 
-  const { mutate: mutateAuthUser, isPending: isLoading } = useMutation({
+  /* const { mutate: mutateAuthUser, isPending: isLoading } = useMutation({
     mutationKey: ["mutateRegister"],
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       const request = await fetch("/api/users", {
@@ -111,14 +94,18 @@ export function UserRegisterAuth() {
     onSuccess: () => {
       toast.success("Cadastro efetuado com sucesso");
     },
-  });
+  }); */
 
-  async function onSubmit(values: z.infer<typeof formSchema>, event: any) {
-    event.preventDefault();
+  async function onSubmit(values: z.infer<typeof registerSchema>, event: any) {
+    setError("");
+    setSuccess("");
 
-    console.log(values);
-
-    mutateAuthUser(values);
+    startTransition(() => {
+      register(values).then((data) => {
+        setError(data.error);
+        setSuccess(data.success);
+      });
+    });
   }
 
   return (
@@ -317,9 +304,9 @@ export function UserRegisterAuth() {
                 variant="expandIcon"
                 Icon={Icons.fileInput}
                 iconPlacement="right"
-                disabled={isLoading}
+                disabled={isPending}
               >
-                {isLoading && (
+                {isPending && (
                   <Icons.loader className="animate-spin mr-2 w-4 h-4" />
                 )}
                 Solicitar Demonstração
