@@ -71,18 +71,13 @@ export function Schedule() {
               headerToolbar={{
                 left: "prev next today",
                 center: "title",
-                right: "dayGridMonth timeGridWeek timeGridDay",
+                right: "dayGridMonth,timeGridWeek,timeGridDay",
               }}
-              dayHeaders={true}
-              dayHeaderClassNames={"text-lg font-medium py-2"}
+              // dayHeaders={true}
+              dayHeaderClassNames={"font-medium py-2"}
               selectable={true}
               locale={ptBRLocale}
               editable={true}
-              titleFormat={{
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              }}
             />
           </div>
         </Card>

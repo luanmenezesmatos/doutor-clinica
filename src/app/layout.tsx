@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "../styles/full-calendar.css";
 
 import { siteConfig } from "@/config/site";
 
