@@ -6,7 +6,7 @@ import { RedirectType, redirect } from "next/navigation";
 
 import { Suspense } from "react";
 
-import { currentUser } from "@/lib/auth/auth";
+import { currentUser } from "@/lib/auth/session";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";

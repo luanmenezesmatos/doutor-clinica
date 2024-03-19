@@ -1,6 +1,6 @@
 import React from "react";
 
-import { currentUser } from "@/lib/auth/auth";
+import { currentUser } from "@/lib/auth/session";
 
 import { RedirectType, redirect } from "next/navigation";
 

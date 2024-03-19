@@ -4,7 +4,7 @@ import { z } from "zod";
 import { db as prisma } from "@/lib/db";
 import { createPatientSchema } from "./schema";
 
-import { getCurrentUser } from "@/lib/auth/auth";
+import { currentUser as getCurrentUser } from "@/lib/auth/session";
 
 import { generateControlNumber } from "@/lib/utils";
 

@@ -33,8 +33,6 @@ import {
 } from "@/components/ui/select";
 import { PasswordInput } from "../password-input";
 
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
 import { register } from "@/actions/register";
 
 import { toast } from "sonner";
@@ -45,8 +43,6 @@ export function UserRegisterAuth() {
   const desktop = "(min-width: 768px)";
   const isDesktop = useMediaQuery(desktop);
 
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof registerSchema>>({
@@ -97,13 +93,23 @@ export function UserRegisterAuth() {
   }); */
 
   async function onSubmit(values: z.infer<typeof registerSchema>, event: any) {
-    setError("");
-    setSuccess("");
-
     startTransition(() => {
       register(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        if (data.error) {
+          form.reset();
+
+          toast.message("Ocorreu um erro ao efetuar o cadastro!", {
+            description: data.error,
+          });
+        }
+
+        if (data.success) {
+          form.reset();
+
+          toast.message("Cadastro efetuado com sucesso!", {
+            description: data.success,
+          });
+        }
       });
     });
   }

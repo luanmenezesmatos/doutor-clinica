@@ -22,9 +22,6 @@ import {
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/password-input";
 
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
-
 import { toast } from "sonner";
 
 import { login } from "@/actions/login";
@@ -74,20 +71,23 @@ export function UserLoginAuth() {
       : "";
 
   const [showTwoFactor, setShowTwoFactor] = useState(false);
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    setError("");
-    setSuccess("");
-
     startTransition(() => {
       login(values, callbackUrl)
         .then((data) => {
           if (data?.error) {
             form.reset();
-            setError(data.error);
+
+            toast.message("Ocorreu um erro ao efetuar o login!", {
+              description: data.error,
+              position: "bottom-center",
+            });
+          } else {
+            router.push("/plataforma");
+
+            toast.success("Login efetuado com sucesso!");
           }
 
           /* if (data?.success) {
@@ -99,7 +99,11 @@ export function UserLoginAuth() {
             setShowTwoFactor(true);
           } */
         })
-        .catch(() => setError("Ocorreu um erro ao efetuar o login!"));
+        .catch(() =>
+          toast.error("Ocorreu um erro ao efetuar o login!", {
+            position: "bottom-center",
+          })
+        );
     });
   }
 
@@ -153,8 +157,6 @@ export function UserLoginAuth() {
               />
             </div>
           </div>
-          <FormError message={error || urlError} />
-          <FormSuccess message={success} />
           <Button
             type="submit"
             className={(buttonVariants({ variant: "default" }), "w-full")}

@@ -6,6 +6,7 @@ declare global {
       NEXTAUTH_SECRET: string;
       APP_API_AUTHORIZATION_TOKEN: string;
       NEXT_PUBLIC_APP_URL: string;
+      RESEND_API_KEY: string;
     }
   }
 }
