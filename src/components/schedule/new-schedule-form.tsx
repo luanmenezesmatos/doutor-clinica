@@ -31,6 +31,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { DatePicker } from "@tremor/react";
 import { Textarea } from "@/components/ui/textarea";
 
+import { DateTimePicker } from "@/components/ui/date-time-picker";
+
 import { createEvent } from "@/actions/event-calendar";
 
 export function NewScheduleForm({ userId }: { userId: string }) {
@@ -41,18 +43,16 @@ export function NewScheduleForm({ userId }: { userId: string }) {
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
     try {
-      // Adjust the date to UTC
       const adjustedDate = new Date(values.dateTime);
       const utcDate = new Date(adjustedDate.toISOString());
 
-      // Push the whole day forward
       utcDate.setUTCDate(utcDate.getUTCDate() + 1);
       utcDate.setUTCHours(1, 0, 0, 0);
 
       const newEvent = await createEvent({
         event: { ...values, dateTime: utcDate },
         userId,
-        path: "/events",
+        path: "/plataforma/agenda",
       });
 
       if (newEvent) {
@@ -112,7 +112,7 @@ export function NewScheduleForm({ userId }: { userId: string }) {
                       <FormControl>
                         <DatePicker
                           value={field.value}
-                          onValueChange={(date) => field.onChange(date)}
+                          onChange={(date) => field.onChange(date)}
                         />
                       </FormControl>
                       <FormMessage />
