@@ -1,5 +1,11 @@
+import { db as prisma } from "@/lib/db";
+
+import { currentUser } from "@/lib/auth/session";
+
 import { Schedule } from "@/components/schedule/schedule";
 
 export default async function SchedulePage() {
-  return <Schedule />;
+  const user = await currentUser();
+
+  return <Schedule user={user?.id ?? ""} />;
 }

@@ -7,6 +7,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const handleError = (error: unknown) => {
+  console.error(error);
+  throw new Error(typeof error === "string" ? error : JSON.stringify(error));
+};
+
 export function absoluteUrl(path: string) {
   return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }
@@ -50,7 +55,10 @@ export function calculateAge(date: Date | string) {
   return ageString;
 }
 
-export function dateFormatter(date: Date | string, style: "full" | "long" | "medium" | "short" = "short") {
+export function dateFormatter(
+  date: Date | string,
+  style: "full" | "long" | "medium" | "short" = "short"
+) {
   return new Intl.DateTimeFormat("pt-BR", {
     dateStyle: style,
   }).format(new Date(date));

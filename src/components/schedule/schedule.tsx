@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -24,6 +24,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 
@@ -33,10 +43,76 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import ptBRLocale from "@fullcalendar/core/locales/pt-br";
 
-export function Schedule() {
+import { getAllEventsByUser } from "@/actions/event-calendar";
+
+import { NewScheduleForm } from "./new-schedule-form";
+
+function renderEventContent(eventInfo: any) {
+  const maxLength = 15;
+
+  const truncatedTitle =
+    eventInfo.event.title.length > maxLength
+      ? `${eventInfo.event.title.substring(0, maxLength)}...`
+      : eventInfo.event.title;
+
+  console.log("event info", eventInfo.event);
+
+  return (
+    <div className="flex flex-wrap overflow-hidden bg-indigo-200 px-2 py-1.5 rounded-sm w-full event-button hover:bg-indigo-300 transition-all">
+      <AlertDialog>
+        <AlertDialogTrigger title="Event Details">
+          <p className="font-semibold text-xs text-indigo-900 overflow-hidden pr-1">
+            {truncatedTitle}
+          </p>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="dark:bg-slate-800">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{eventInfo.event.title}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {eventInfo.event.extendedProps.description}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>Close</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+}
+
+export function Schedule({ user }: { user: string }) {
   const breadcrumbItems = [{ title: "Agenda", link: "" }];
 
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [events, setEvents] = useState<[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await getAllEventsByUser({ user });
+
+        console.log("response", response);
+
+        if (response) {
+          const transformedEvents = response.map((event: any) => ({
+            id: event.id,
+            title: event.title,
+            description: event.description,
+            start: event.date,
+          }));
+
+          console.log("transformedEvents", transformedEvents);
+
+          setEvents(transformedEvents as []);
+        }
+      } catch (error) {
+        console.log("Error fetching events", error);
+      }
+    };
+
+    fetchEvents();
+  }, [user]);
 
   return (
     <>
@@ -87,6 +163,7 @@ export function Schedule() {
               <Button variant="default" className="mb-2 md:mb-0">
                 <span>Filtrar</span>
               </Button>
+              <NewScheduleForm userId={user} />
             </div>
             <Separator className="mt-4" />
             <div className="flex flex-col-reverse xl:flex-row pt-4">
@@ -120,6 +197,13 @@ export function Schedule() {
                       },
                     },
                   }}
+                  eventTimeFormat={{
+                    hour: "numeric",
+                    minute: "2-digit",
+                    meridiem: false,
+                  }}
+                  events={events}
+                  eventContent={renderEventContent}
                   slotDuration={"00:40:00"}
                   slotLabelFormat={{ hour: "2-digit", minute: "2-digit" }}
                   slotMinTime={"08:00:00"}
@@ -129,7 +213,6 @@ export function Schedule() {
                   // nowIndicator={true}
                   selectable={true}
                   locale={ptBRLocale}
-                  editable={true}
                 />
               </div>
             </div>

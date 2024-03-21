@@ -64,7 +64,7 @@ import { Separator } from "@/components/ui/separator";
 import { QuestionCard } from "@/components/question-card";
 import { toast } from "sonner";
 
-import { createPatient } from "@/app/(plataforma)/plataforma/paciente/novo/actions";
+import { createPatient } from "@/app/(protected)/plataforma/paciente/novo/actions";
 
 const formSchema = z.object({
   is_active: z.boolean().optional(),
