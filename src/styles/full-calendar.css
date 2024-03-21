@@ -1,43 +1,48 @@
-.fc .fc-button {
-  color: black;
-  border: 1px solid #E1E3EA;
-  background-color: transparent;
-}
-
-.fc .fc-button:hover {
-  color: black;
-  border: 1px solid #F9F9F9;
-  background-color: #F9F9F9;
-}
-
-.fc .fc-button:disabled {
-  color: black;
-  border: 1px solid #E7E7E7;
-  background-color: #F9F9F9;
-}
-
-.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
-  color: #fff;
-  border: 1px solid #F9F9F9;
-  background-color: #000;
-}
-
-.fc .fc-button-primary:not(:disabled).fc-button-active:hover, .fc .fc-button-primary:not(:disabled):active:hover {
-  color: #fff;
-  border: 1px solid #F9F9F9;
-  background-color: #1f1f1f;
+.fc {
+  --fc-border-color: #E7E7E7;
+  --fc-page-bg-color: #ffffff;
+  --fc-small-font-size: 0.95rem;
+  --fc-highlight-color: #F9F9F9;
+  --fc-bg-event-opacity: 0.3;
+  --fc-neutral-bg-color: #F9F9F9;
+  --fc-today-bg-color: transparent;
+  --fc-now-indicator-color: #000000;
+  --fc-list-event-hover-bg-color: #F9F9F9;
+  --fc-button-text-color: #000000;
+  --fc-button-bg-color: transparent;
+  --fc-button-border-color: #F9F9F9;
+  --fc-button-hover-bg-color: #F9F9F9;
+  --fc-button-hover-border-color: #F9F9F9;
+  --fc-button-active-bg-color: #E7E7E7;
+  --fc-button-active-border-color: #E7E7E7;
+  --fc-event-border-color: #8FEFBC;
+  --fc-event-bg-color: #8FEFBC;
 }
 
 .fc .fc-toolbar-title {
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: lowercase;
 }
 
 .fc .fc-col-header-cell-cushion {
-  padding: 10px 10px;
+  text-transform: lowercase;
+  padding: 2px 4px;
+}
+
+.fc .fc-col-header-cell-cushion:first-letter {
+  text-transform: uppercase;
+}
+
+
+.fc .fc-col-header-cell {
+  padding: 0.75rem 0.5rem;
 }
 
 .fc .fc-timegrid-axis-cushion {
-  align-items: center;
+  max-width: 60px;
+  flex-shrink: 0;
   text-align: center;
-  padding-left: 10px;
+  text-transform: capitalize;
+  padding: 0 4px;
 }
