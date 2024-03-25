@@ -9,6 +9,14 @@ import Breadcrumb from "@/components/breadcrumb";
 
 import { Icons } from "@/components/icons";
 
+import { useEventModal } from "@/hooks/use-event-modal";
+
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import ptBRLocale from "@fullcalendar/core/locales/pt-br";
+
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Select,
@@ -34,18 +42,39 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Credenza,
+  CredenzaBody,
+  CredenzaClose,
+  CredenzaContent,
+  CredenzaDescription,
+  CredenzaFooter,
+  CredenzaHeader,
+  CredenzaTitle,
+  CredenzaTrigger,
+} from "@/components/ui/credenza";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import ptBRLocale from "@fullcalendar/core/locales/pt-br";
-
 import { getAllEventsByUser } from "@/actions/event-calendar";
 
-import { NewScheduleForm } from "./new-schedule-form";
+import { NewSchedule } from "./new-schedule";
+
+interface EventInfo {
+  start: Date | string;
+  end: Date | string;
+  startStr: string;
+  endStr: string;
+}
 
 function renderEventContent(eventInfo: any) {
   const maxLength = 15;
@@ -54,8 +83,6 @@ function renderEventContent(eventInfo: any) {
     eventInfo.event.title.length > maxLength
       ? `${eventInfo.event.title.substring(0, maxLength)}...`
       : eventInfo.event.title;
-
-  console.log("event info", eventInfo.event);
 
   return (
     <div className="flex flex-wrap overflow-hidden bg-indigo-200 px-2 py-1.5 rounded-sm w-full event-button hover:bg-indigo-300 transition-all">
@@ -81,18 +108,26 @@ function renderEventContent(eventInfo: any) {
   );
 }
 
+interface EventInfo {
+  start: Date | string;
+  end: Date | string;
+  startStr: string;
+  endStr: string;
+}
+
 export function Schedule({ user }: { user: string }) {
   const breadcrumbItems = [{ title: "Agenda", link: "" }];
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [events, setEvents] = useState<[]>([]);
 
+  const { openModal, setOpenModal, eventId } = useEventModal();
+  const [eventInfo, setEventInfo] = useState<EventInfo | undefined>();
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await getAllEventsByUser({ user });
-
-        console.log("response", response);
 
         if (response) {
           const transformedEvents = response.map((event: any) => ({
@@ -101,8 +136,6 @@ export function Schedule({ user }: { user: string }) {
             description: event.description,
             start: event.date,
           }));
-
-          console.log("transformedEvents", transformedEvents);
 
           setEvents(transformedEvents as []);
         }
@@ -163,7 +196,6 @@ export function Schedule({ user }: { user: string }) {
               <Button variant="default" className="mb-2 md:mb-0">
                 <span>Filtrar</span>
               </Button>
-              <NewScheduleForm userId={user} />
             </div>
             <Separator className="mt-4" />
             <div className="flex flex-col-reverse xl:flex-row pt-4">
@@ -203,17 +235,29 @@ export function Schedule({ user }: { user: string }) {
                     meridiem: false,
                   }}
                   events={events}
+                  select={function (info) {
+                    // alert("selected " + info.startStr + " to " + info.endStr);
+
+                    setEventInfo(info);
+                    setOpenModal(true);
+                  }}
                   eventContent={renderEventContent}
                   slotDuration={"00:40:00"}
                   slotLabelFormat={{ hour: "2-digit", minute: "2-digit" }}
                   slotMinTime={"08:00:00"}
-                  slotMaxTime={"18:31:00"}
+                  slotMaxTime={"18:00:00"}
                   titleRangeSeparator=" até "
                   dayHeaderClassNames={"font-medium py-2"}
-                  // nowIndicator={true}
+                  nowIndicator={true}
                   selectable={true}
                   locale={ptBRLocale}
                 />
+
+                <Credenza open={openModal} onOpenChange={setOpenModal}>
+                  <CredenzaContent className="lg:w-[1000px] lg:max-w-full">
+                    <NewSchedule userId={user} info={eventInfo} />
+                  </CredenzaContent>
+                </Credenza>
               </div>
             </div>
           </div>

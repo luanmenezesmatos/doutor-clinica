@@ -25,6 +25,10 @@
   text-transform: lowercase;
 }
 
+.fc .fc-toolbar-title::first-letter {
+  text-transform: uppercase;
+}
+
 .fc .fc-col-header-cell-cushion {
   text-transform: lowercase;
   padding: 2px 4px;

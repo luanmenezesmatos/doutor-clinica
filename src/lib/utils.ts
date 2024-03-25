@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 import { init } from "@paralleldrive/cuid2";
+import { format } from "date-fns-tz";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -62,4 +63,22 @@ export function dateFormatter(
   return new Intl.DateTimeFormat("pt-BR", {
     dateStyle: style,
   }).format(new Date(date));
+}
+
+export function formatDateWithTime(date: Date, time: string) {
+  const targetTimeZone = "America/Sao_Paulo";
+
+  const [hour, minute] = time.split(":");
+  date.setHours(Number(hour));
+  date.setMinutes(Number(minute));
+
+  console.log(date);
+
+  const formattedDate = format(date, "yyyy-MM-dd'T'HH:mm:ss.SSS", {
+    timeZone: targetTimeZone,
+  });
+
+  console.log(formattedDate);
+
+  return formattedDate;
 }

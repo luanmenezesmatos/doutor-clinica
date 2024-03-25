@@ -19,8 +19,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
     <HoverCard>
       <HoverCardTrigger>
         <div
-          className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100"
-          style={{ padding: "0.25rem" }}
+          className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 p-[0.25rem]"
         >
           <HelpCircle className="text-accent-foreground" />
         </div>
