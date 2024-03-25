@@ -26,7 +26,15 @@ import {
   Stethoscope,
   Pill,
   AlertTriangle,
-  Search
+  Search,
+  ChevronsUpDown,
+  Clock,
+  UserRoundCheck,
+  Building2,
+  UserX,
+  UserMinus,
+  CheckCheck,
+  DollarSign
 } from "lucide-react";
 
 export const Icons = {
@@ -57,6 +65,14 @@ export const Icons = {
   pill: Pill,
   alert: AlertTriangle,
   search: Search,
+  chevronsUpDown: ChevronsUpDown,
+  clock: Clock,
+  userRoundCheck: UserRoundCheck,
+  building: Building2,
+  userUncheck: UserX,
+  userMinus: UserMinus,
+  doubleCheck: CheckCheck,
+  dollarSign: DollarSign,
   whatsapp: ({ ...props }: LucideProps) => (
     <svg viewBox="0 0 32 32">
       <path

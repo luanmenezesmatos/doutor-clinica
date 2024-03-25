@@ -46,7 +46,10 @@ export function TimePicker({ date, setDate }: TimePickerProps) {
         <div className="flex items-center">
           {new Date(date?.getTime() ?? 0).getHours() >= 12 &&
           new Date(date?.getTime() ?? 0).getHours() < 13 ? (
-            <div className="ml-2">
+            <>
+              <AlertTriangle className="h-4 w-4 text-yellow-500" />
+
+              {/* <div className="ml-2">
               <HoverCard>
                 <HoverCardTrigger>
                   <div className="flex items-center justify-center p-[0.25rem] rounded-full border border-input">
@@ -60,7 +63,8 @@ export function TimePicker({ date, setDate }: TimePickerProps) {
                   </p>
                 </HoverCardContent>
               </HoverCard>
-            </div>
+            </div> */}
+            </>
           ) : (
             <Clock className="ml-2 h-4 w-4 opacity-50" />
           )}
