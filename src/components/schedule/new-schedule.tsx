@@ -617,7 +617,7 @@ export function NewSchedule({
                           <FormLabel>Procedimento</FormLabel>
                           <FormControl
                             className={cn(
-                              "w-[215px]",
+                              "w-full",
                               !field.value && "text-muted-foreground"
                             )}
                           >
