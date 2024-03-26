@@ -12,8 +12,8 @@ type CreateEventParams = {
   userId: string;
   event: {
     date: Date;
-    startTime: Date;
-    endTime: Date;
+    startTime: string;
+    endTime: string;
     typeOfService: string;
     schedule?: string;
     professional: string;
@@ -56,7 +56,7 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
       },
     });
 
-    if (patient && patient.success) {
+    if (patient) {
       const createdEvent = await prisma.event.create({
         data: {
           date: event.date,
@@ -98,8 +98,6 @@ export async function getAllEventsByUser({ user }: GetAllEventsParams) {
         userId: user.id,
       },
     });
-
-    console.log("events", events);
 
     return events;
   } catch (error) {

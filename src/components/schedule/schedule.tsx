@@ -135,8 +135,8 @@ export function Schedule({ user }: { user: string }) {
             id: event.id,
             title: event.cellPhone,
             description: event.description,
-            start: new Date(event.startTime),
-            end: new Date(event.endTime),
+            start: event.startTime,
+            end: event.endTime,
             color: event.color,
           }));
 

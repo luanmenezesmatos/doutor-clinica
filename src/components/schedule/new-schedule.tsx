@@ -135,8 +135,6 @@ export function NewSchedule({
     useState<boolean>(true);
   const [professionals, setProfessionals] = useState<any[]>([]);
 
-  console.log("info", info);
-
   const form = useForm<z.infer<typeof appointmentFormSchema>>({
     resolver: zodResolver(appointmentFormSchema),
     defaultValues: {
@@ -181,8 +179,6 @@ export function NewSchedule({
       values: { patient_select_option: patientSelectOption },
     });
 
-    console.log("patient", patient);
-
     if (patient && patient.success) {
       setPatientDisabledCellPhone(false);
       setPatientDisabledAgreementPlan(false);
@@ -198,14 +194,22 @@ export function NewSchedule({
 
     try {
       const newEvent = await createEvent({
-        event: { ...values, date: values.date, startTime: values.startTime, endTime: values.endTime, professional: values.professional || "", patient: values.patient || "", cellPhone: values.cellPhone || ""},
+        event: {
+          ...values,
+          date: values.date,
+          startTime: values.startTime.toISOString(),
+          endTime: values.endTime.toISOString(),
+          professional: values.professional || "",
+          patient: values.patient || "",
+          cellPhone: values.cellPhone || "",
+        },
         userId,
         path: "/plataforma/agenda",
       });
 
       if (newEvent) {
         form.reset();
-        // window.location.reload();
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);
