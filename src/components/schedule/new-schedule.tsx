@@ -60,7 +60,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription
+  FormDescription,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -98,11 +98,18 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { DateTimePicker } from "@/components/ui/date-time-picker";
 import { TimePicker } from "@/components/ui/time-picker";
 
+import { currentUser } from "@/lib/auth/session";
+
 import { createEvent } from "@/actions/event-calendar";
+import { getPatient as getPatientFunction } from "@/actions/patient";
+import { getProfessionals } from "@/actions/professional";
+import { getClinicByUser } from "@/actions/clinic";
+import { getUserById } from "@/actions/user";
 
 interface EventInfo {
   start: Date | string;
@@ -120,6 +127,15 @@ export function NewSchedule({
 }) {
   const [patientSelectOption, setPatientSelectOption] =
     useState<string>("name");
+  const [patientDisabledCellPhone, setPatientDisabledCellPhone] =
+    useState<boolean>(true);
+  const [patientDisabledAgreementPlan, setPatientDisabledAgreementPlan] =
+    useState<boolean>(true);
+  const [patientDisabledProcedure, setPatientDisabledProcedure] =
+    useState<boolean>(true);
+  const [professionals, setProfessionals] = useState<any[]>([]);
+
+  console.log("info", info);
 
   const form = useForm<z.infer<typeof appointmentFormSchema>>({
     resolver: zodResolver(appointmentFormSchema),
@@ -134,47 +150,66 @@ export function NewSchedule({
       cellPhone: "",
       agreementPlan: "",
       procedure: "",
-      speciality: "",
       observations: "",
-      appointmentStatus: "",
+      appointmentStatus: "a-confirmar",
+      color: "sem-rotulo",
     },
   });
 
-  const languages = [
-    { label: "English", value: "en" },
-    { label: "French", value: "fr" },
-    { label: "German", value: "de" },
-    { label: "Spanish", value: "es" },
-    { label: "Portuguese", value: "pt" },
-    { label: "Russian", value: "ru" },
-    { label: "Japanese", value: "ja" },
-    { label: "Korean", value: "ko" },
-    { label: "Chinese", value: "zh" },
-  ] as const;
+  useEffect(() => {
+    const fetchData = async () => {
+      const user = await getUserById({ id: userId });
+
+      if (user && user.success) {
+        setProfessionals([
+          {
+            label: user.user?.name,
+            value: user.user?.id,
+          },
+        ]);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  async function getPatient() {
+    const patientSelectOption = form.getValues("patient");
+    console.log("patientSelectOption", patientSelectOption);
+
+    const patient = await getPatientFunction({
+      values: { patient_select_option: patientSelectOption },
+    });
+
+    console.log("patient", patient);
+
+    if (patient && patient.success) {
+      setPatientDisabledCellPhone(false);
+      setPatientDisabledAgreementPlan(false);
+      setPatientDisabledProcedure(false);
+
+      form.setValue("patient", patient.patient?.full_civil_name ?? "");
+      form.setValue("cellPhone", patient.patient?.cell_phone ?? "");
+    }
+  }
 
   async function onSubmit(values: z.infer<typeof appointmentFormSchema>) {
-    console.log(values);
+    console.log("values", values);
 
-    /* try {
-      const adjustedDate = new Date(values.dateTime);
-      const utcDate = new Date(adjustedDate.toISOString());
-
-      utcDate.setUTCDate(utcDate.getUTCDate() + 1);
-      utcDate.setUTCHours(1, 0, 0, 0);
-
+    try {
       const newEvent = await createEvent({
-        event: { ...values, dateTime: utcDate },
+        event: { ...values, date: values.date, startTime: values.startTime, endTime: values.endTime, professional: values.professional || "", patient: values.patient || "", cellPhone: values.cellPhone || ""},
         userId,
         path: "/plataforma/agenda",
       });
 
       if (newEvent) {
         form.reset();
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error) {
       console.error(error);
-    } */
+    }
   }
 
   return (
@@ -368,7 +403,6 @@ export function NewSchedule({
                       )}
                     />
                   </div>
-
                   <div className="grid md:grid-cols-2 gap-4 items-center">
                     <FormField
                       control={form.control}
@@ -419,9 +453,9 @@ export function NewSchedule({
                                   )}
                                 >
                                   {field.value
-                                    ? languages.find(
-                                        (language) =>
-                                          language.value === field.value
+                                    ? professionals.find(
+                                        (professional) =>
+                                          professional.value === field.value
                                       )?.label
                                     : "Selecione o profissional"}
                                   <Icons.chevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -435,26 +469,26 @@ export function NewSchedule({
                                   Nenhum profissional encontrado.
                                 </CommandEmpty>
                                 <CommandGroup>
-                                  {languages.map((language) => (
+                                  {professionals.map((professional) => (
                                     <CommandItem
-                                      value={language.label}
-                                      key={language.value}
+                                      value={professional.label}
+                                      key={professional.value}
                                       onSelect={() => {
                                         form.setValue(
                                           "professional",
-                                          language.value
+                                          professional.value
                                         );
                                       }}
                                     >
                                       <Icons.check
                                         className={cn(
                                           "mr-2 h-4 w-4",
-                                          language.value === field.value
+                                          professional.value === field.value
                                             ? "opacity-100"
                                             : "opacity-0"
                                         )}
                                       />
-                                      {language.label}
+                                      {professional.label}
                                     </CommandItem>
                                   ))}
                                 </CommandGroup>
@@ -466,7 +500,6 @@ export function NewSchedule({
                       )}
                     />
                   </div>
-
                   <div className="grid gap-4 items-center">
                     <FormField
                       control={form.control}
@@ -475,12 +508,6 @@ export function NewSchedule({
                         <FormItem className="flex flex-col">
                           <FormLabel>Paciente *</FormLabel>
                           <FormControl>
-                            {/* <Input
-                              placeholder="Nome do paciente"
-                              autoComplete="off"
-                              {...field}
-                            /> */}
-
                             <div className="flex items-center justify-start rounded-md border border-input">
                               <Select
                                 onValueChange={(value) =>
@@ -539,8 +566,12 @@ export function NewSchedule({
 
                               <div className="py-1 pr-1">
                                 <Button
+                                  type="button"
                                   variant="secondary"
                                   className="flex items-center border-none rounded-none rounded-r-md px-3 py-2"
+                                  onClick={() => {
+                                    getPatient();
+                                  }}
                                 >
                                   <Icons.search className="h-4 w-4" />{" "}
                                   <span className="ml-2">Buscar</span>
@@ -553,8 +584,7 @@ export function NewSchedule({
                       )}
                     />
                   </div>
-
-                  <div className="grid md:grid-cols-4 gap-4 items-center">
+                  <div className="grid md:grid-cols-3 gap-4 items-center">
                     <FormField
                       control={form.control}
                       name="cellPhone"
@@ -571,6 +601,7 @@ export function NewSchedule({
                               onChange={(e) => {
                                 field.onChange(e.target.value);
                               }}
+                              disabled={patientDisabledCellPhone}
                             />
                           </FormControl>
                           <FormMessage />
@@ -593,6 +624,7 @@ export function NewSchedule({
                             <Select
                               onValueChange={field.onChange}
                               defaultValue={field.value}
+                              disabled={patientDisabledAgreementPlan}
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Plano de convênio" />
@@ -624,6 +656,7 @@ export function NewSchedule({
                             <Select
                               onValueChange={field.onChange}
                               defaultValue={field.value}
+                              disabled={patientDisabledProcedure}
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Selecione..." />
@@ -637,7 +670,31 @@ export function NewSchedule({
                         </FormItem>
                       )}
                     />
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="observations"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Observações</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            className="min-h-[80px]"
+                            minLength={10}
+                            maxLength={500}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription className="flex gap-5 text-sm text-black">
+                          <p>Caracteres: {field.value?.length ?? 0}</p>
+                          <p>Limite: 500</p>
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
+                  <div className="w-[300px]">
                     <FormField
                       control={form.control}
                       name="appointmentStatus"
@@ -646,7 +703,6 @@ export function NewSchedule({
                           <FormLabel>Situação do agendamento</FormLabel>
                           <FormControl
                             className={cn(
-                              "w-full",
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -754,47 +810,118 @@ export function NewSchedule({
                         </FormItem>
                       )}
                     />
-
-                    <FormField
-                      control={form.control}
-                      name="observations"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Observações</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              className="min-h-[80px]"
-                              minLength={10}
-                              maxLength={500}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormDescription className="flex gap-5 text-sm text-black">
-                            <p>Caracteres: {field.value?.length ?? 0}</p>
-                            <p>Limite: 500</p>
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
 
             <Card>
-              <CardContent className="flex flex-row justify-end gap-2">
-                <CredenzaClose asChild>
-                  <Button variant="outline">
-                    <Icons.close className="h-4 w-4" />
-                    <span className="ml-2">Cancelar</span>
-                  </Button>
-                </CredenzaClose>
+              <CardContent className="flex flex-row justify-between gap-2 items-center">
+                <div className="justify-start">
+                  <div className="w-[255px]">
+                    <FormField
+                      control={form.control}
+                      name="color"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormControl
+                            className={cn(
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Selecione..." />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="sem-rotulo">
+                                  <div className="flex items-center gap-2">
+                                    <div className="border-2 border-gray-400 h-4 w-4 rounded-full" />
+                                    Sem rótulo
+                                  </div>
+                                </SelectItem>
 
-                <Button type="submit" variant="default">
-                  <Icons.check className="h-4 w-4" />
-                  <span className="ml-2">Continuar</span>
-                </Button>
+                                <SelectItem value="rotulo-cor-amarelo">
+                                  <div className="flex items-center gap-2">
+                                    <div className="bg-[#F6BF26] h-4 w-4 rounded-full" />
+                                    Rótulo cor amarelo
+                                  </div>
+                                </SelectItem>
+
+                                <SelectItem value="rotulo-cor-rosa">
+                                  <div className="flex items-center gap-2">
+                                    <div className="bg-[#E67C73] h-4 w-4 rounded-full" />
+                                    Rótulo cor rosa
+                                  </div>
+                                </SelectItem>
+
+                                <SelectItem value="rotulo-cor-cinza">
+                                  <div className="flex items-center gap-2">
+                                    <div className="bg-[#616161] h-4 w-4 rounded-full" />
+                                    Rótulo cor cinza
+                                  </div>
+                                </SelectItem>
+
+                                <SelectItem value="rotulo-cor-violeta-claro">
+                                  <div className="flex items-center gap-2">
+                                    <div className="bg-[#A1AEF2] h-4 w-4 rounded-full" />
+                                    Rótulo cor violeta claro
+                                  </div>
+                                </SelectItem>
+
+                                <SelectItem value="rotulo-cor-verde-escuro">
+                                  <div className="flex items-center gap-2">
+                                    <div className="bg-[#2E5440] h-4 w-4 rounded-full" />
+                                    Rótulo cor verde escuro
+                                  </div>
+                                </SelectItem>
+
+                                <SelectItem value="rotulo-cor-laranja">
+                                  <div className="flex items-center gap-2">
+                                    <div className="bg-[#FF6433] h-4 w-4 rounded-full" />
+                                    Rótulo cor laranja
+                                  </div>
+                                </SelectItem>
+
+                                <SelectItem value="rotulo-cor-violeta">
+                                  <div className="flex items-center gap-2">
+                                    <div className="bg-[#8E24AA] h-4 w-4 rounded-full" />
+                                    Rótulo cor violeta
+                                  </div>
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <div className="justify-end space-x-2">
+                  <CredenzaClose asChild>
+                    <Button variant="outline">
+                      <Icons.close className="h-4 w-4" />
+                      <span className="ml-2">Cancelar</span>
+                    </Button>
+                  </CredenzaClose>
+
+                  {form.formState.isSubmitting ? (
+                    <Button variant="default" disabled>
+                      <Icons.loader className="h-4 w-4 animate-spin" />
+                      <span className="ml-2">Agendando...</span>
+                    </Button>
+                  ) : (
+                    <Button type="submit" variant="default">
+                      <Icons.check className="h-4 w-4" />
+                      <span className="ml-2">Agendar</span>
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </form>

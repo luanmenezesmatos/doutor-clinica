@@ -31,7 +31,7 @@ export const appointmentFormSchema = z.object({
   cellPhone: z.string(),
   agreementPlan: z.string(),
   procedure: z.string().optional(),
-  speciality: z.string().optional(),
   observations: z.string().optional(),
   appointmentStatus: z.string().optional(),
+  color: z.string().optional(),
 });

@@ -63,6 +63,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
 import { getAllEventsByUser } from "@/actions/event-calendar";
@@ -85,14 +86,14 @@ function renderEventContent(eventInfo: any) {
       : eventInfo.event.title;
 
   return (
-    <div className="flex flex-wrap overflow-hidden bg-indigo-200 px-2 py-1.5 rounded-sm w-full event-button hover:bg-indigo-300 transition-all">
+    <div className="flex flex-wrap overflow-hidden px-2 py-1.5 rounded-sm w-full event-button transition-all">
       <AlertDialog>
         <AlertDialogTrigger title="Event Details">
-          <p className="font-semibold text-xs text-indigo-900 overflow-hidden pr-1">
+          <p className="font-semibold text-xs overflow-hidden pr-1">
             {truncatedTitle}
           </p>
         </AlertDialogTrigger>
-        <AlertDialogContent className="dark:bg-slate-800">
+        <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{eventInfo.event.title}</AlertDialogTitle>
             <AlertDialogDescription>
@@ -132,9 +133,11 @@ export function Schedule({ user }: { user: string }) {
         if (response) {
           const transformedEvents = response.map((event: any) => ({
             id: event.id,
-            title: event.title,
+            title: event.cellPhone,
             description: event.description,
-            start: event.date,
+            start: new Date(event.startTime),
+            end: new Date(event.endTime),
+            color: event.color,
           }));
 
           setEvents(transformedEvents as []);
@@ -254,8 +257,13 @@ export function Schedule({ user }: { user: string }) {
                 />
 
                 <Credenza open={openModal} onOpenChange={setOpenModal}>
-                  <CredenzaContent className="lg:w-[1000px] lg:max-w-full">
-                    <NewSchedule userId={user} info={eventInfo} />
+                  <CredenzaContent
+                    className="grid lg:max-w-screen-lg max-h-screen"
+                    icon={false}
+                  >
+                    <ScrollArea className="max-h-[80vh] p-6">
+                      <NewSchedule userId={user} info={eventInfo} />
+                    </ScrollArea>
                   </CredenzaContent>
                 </Credenza>
               </div>
