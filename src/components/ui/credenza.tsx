@@ -81,7 +81,11 @@ const CredenzaContent = ({
   const CredenzaContent = isDesktop ? DialogContent : DrawerContent;
 
   return (
-    <CredenzaContent className={className} {...props} icon={icon}>
+    <CredenzaContent
+      className={className}
+      {...props}
+      icon={icon}
+    >
       {children}
     </CredenzaContent>
   );

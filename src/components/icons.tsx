@@ -34,7 +34,9 @@ import {
   UserX,
   UserMinus,
   CheckCheck,
-  DollarSign
+  DollarSign,
+  PaintRoller,
+  Palette
 } from "lucide-react";
 
 export const Icons = {
@@ -73,6 +75,8 @@ export const Icons = {
   userMinus: UserMinus,
   doubleCheck: CheckCheck,
   dollarSign: DollarSign,
+  paintRoller: PaintRoller,
+  palette: Palette,
   whatsapp: ({ ...props }: LucideProps) => (
     <svg viewBox="0 0 32 32">
       <path
