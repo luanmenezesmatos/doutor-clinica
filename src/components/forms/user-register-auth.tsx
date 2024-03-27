@@ -116,213 +116,207 @@ export function UserRegisterAuth() {
 
   return (
     <>
-      {isDesktop ? (
-        <div className="grid gap-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="grid gap-2">
-                <div className="grid gap-1 pb-5 lg:grid-cols-2 lg:space-x-2">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nome Completo</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            id="name"
-                            placeholder="Nome Completo"
-                            type="text"
-                            autoComplete="name"
-                            autoCapitalize="words"
-                            autoCorrect="off"
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Insira o seu Nome Completo
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>E-mail</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            id="email"
-                            placeholder="Endereço de E-mail"
-                            type="email"
-                            autoCapitalize="none"
-                            autoComplete="email"
-                            autoCorrect="off"
-                          />
-                        </FormControl>
-                        <FormDescription>Insira o seu E-mail</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid gap-1 pb-5 lg:grid-cols-2 lg:space-x-2">
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Senha</FormLabel>
-                        <FormControl>
-                          <PasswordInput
-                            {...field}
-                            id="password"
-                            placeholder="Senha"
-                            autoComplete="new-password"
-                          />
-                        </FormControl>
-                        <FormDescription>Insira a sua Senha</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="confirm_password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirmar Senha</FormLabel>
-                        <FormControl>
-                          <PasswordInput
-                            {...field}
-                            id="confirm_password"
-                            placeholder="Confirmar Senha"
-                            autoComplete="new-password"
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Insira a confirmação da sua Senha
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid gap-1 pb-5 lg:grid-cols-2 lg:space-x-2">
-                  <FormField
-                    control={form.control}
-                    name="clinic_name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nome da Clínica</FormLabel>
+      <div className="grid gap-6">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="grid gap-2">
+              <div className="grid gap-1 pb-5 lg:grid-cols-2 lg:space-x-2">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome Completo</FormLabel>
+                      <FormControl>
                         <Input
                           {...field}
-                          id="clinic_name"
-                          placeholder="Nome da Clínica"
+                          id="name"
+                          placeholder="Nome Completo"
                           type="text"
-                          autoComplete="organization"
+                          autoComplete="name"
                           autoCapitalize="words"
                           autoCorrect="off"
                         />
-                        <FormDescription>
-                          Insira o Nome da sua Clínica
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormControl>
+                      <FormDescription>
+                        Insira o seu Nome Completo
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="occupation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Profissão</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Selecione a sua profissão" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="admin-director-ceo">
-                              Administrador/Diretor/CEO
-                            </SelectItem>
-                            <SelectItem value="doctor-medical">
-                              Médico(a)
-                            </SelectItem>
-                            <SelectItem value="dentist">Dentista</SelectItem>
-                            <SelectItem value="physiotherapist">
-                              Fisioterapeuta
-                            </SelectItem>
-                            <SelectItem value="speech-therapist">
-                              Fonoaudiólogo(a)
-                            </SelectItem>
-                            <SelectItem value="beautician">
-                              Esteticista
-                            </SelectItem>
-                            <SelectItem value="psychologist">
-                              Psicólogo(a)
-                            </SelectItem>
-                            <SelectItem value="student">Estudante</SelectItem>
-                            <SelectItem value="secretary">
-                              Secretário(a)
-                            </SelectItem>
-                            <SelectItem value="technology-professional">
-                              Profissional de Tecnologia
-                            </SelectItem>
-                            <SelectItem value="consultant">
-                              Consultor(a)
-                            </SelectItem>
-                            <SelectItem value="other-health-professional">
-                              Outro profissional de saúde
-                            </SelectItem>
-                            <SelectItem value="customer">
-                              Cliente Doutor Clínica
-                            </SelectItem>
-                            <SelectItem value="patient">
-                              Sou Paciente
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormDescription>
-                          Selecione a sua Profissão
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>E-mail</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          id="email"
+                          placeholder="Endereço de E-mail"
+                          type="email"
+                          autoCapitalize="none"
+                          autoComplete="email"
+                          autoCorrect="off"
+                        />
+                      </FormControl>
+                      <FormDescription>Insira o seu E-mail</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                variant="expandIcon"
-                Icon={Icons.fileInput}
-                iconPlacement="right"
-                disabled={isPending}
-              >
-                {isPending && (
-                  <Icons.loader className="animate-spin mr-2 w-4 h-4" />
-                )}
-                Solicitar Demonstração
-              </Button>
-            </form>
-          </Form>
-        </div>
-      ) : (
-        <h1>Testando</h1>
-      )}
+
+              <div className="grid gap-1 pb-5 lg:grid-cols-2 lg:space-x-2">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Senha</FormLabel>
+                      <FormControl>
+                        <PasswordInput
+                          {...field}
+                          id="password"
+                          placeholder="Senha"
+                          autoComplete="new-password"
+                        />
+                      </FormControl>
+                      <FormDescription>Insira a sua Senha</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="confirm_password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirmar Senha</FormLabel>
+                      <FormControl>
+                        <PasswordInput
+                          {...field}
+                          id="confirm_password"
+                          placeholder="Confirmar Senha"
+                          autoComplete="new-password"
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Insira a confirmação da sua Senha
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid gap-1 pb-5 lg:grid-cols-2 lg:space-x-2">
+                <FormField
+                  control={form.control}
+                  name="clinic_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome da Clínica</FormLabel>
+                      <Input
+                        {...field}
+                        id="clinic_name"
+                        placeholder="Nome da Clínica"
+                        type="text"
+                        autoComplete="organization"
+                        autoCapitalize="words"
+                        autoCorrect="off"
+                      />
+                      <FormDescription>
+                        Insira o Nome da sua Clínica
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="occupation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Profissão</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione a sua profissão" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="admin-director-ceo">
+                            Administrador/Diretor/CEO
+                          </SelectItem>
+                          <SelectItem value="doctor-medical">
+                            Médico(a)
+                          </SelectItem>
+                          <SelectItem value="dentist">Dentista</SelectItem>
+                          <SelectItem value="physiotherapist">
+                            Fisioterapeuta
+                          </SelectItem>
+                          <SelectItem value="speech-therapist">
+                            Fonoaudiólogo(a)
+                          </SelectItem>
+                          <SelectItem value="beautician">
+                            Esteticista
+                          </SelectItem>
+                          <SelectItem value="psychologist">
+                            Psicólogo(a)
+                          </SelectItem>
+                          <SelectItem value="student">Estudante</SelectItem>
+                          <SelectItem value="secretary">
+                            Secretário(a)
+                          </SelectItem>
+                          <SelectItem value="technology-professional">
+                            Profissional de Tecnologia
+                          </SelectItem>
+                          <SelectItem value="consultant">
+                            Consultor(a)
+                          </SelectItem>
+                          <SelectItem value="other-health-professional">
+                            Outro profissional de saúde
+                          </SelectItem>
+                          <SelectItem value="customer">
+                            Cliente Doutor Clínica
+                          </SelectItem>
+                          <SelectItem value="patient">Sou Paciente</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        Selecione a sua Profissão
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <Button
+              type="submit"
+              className="w-full"
+              variant="expandIcon"
+              Icon={Icons.fileInput}
+              iconPlacement="right"
+              disabled={isPending}
+            >
+              {isPending && (
+                <Icons.loader className="animate-spin mr-2 w-4 h-4" />
+              )}
+              Solicitar Demonstração
+            </Button>
+          </form>
+        </Form>
+      </div>
     </>
   );
 }

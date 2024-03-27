@@ -37,32 +37,6 @@ export function UserLoginAuth() {
     },
   });
 
-  /* const { mutate: mutateAuthUser, isPending: isLoading } = useMutation({
-    mutationKey: ["mutateLogin"],
-    mutationFn: async (values: z.infer<typeof loginSchema>) => {
-      const res = await signIn<"credentials">("credentials", {
-        email: values.email,
-        password: values.password,
-        redirectTo: "/plataforma",
-      });
-
-      console.log(res);
-
-      /* if (res?.error) {
-        return toast.message("Ocorreu um erro ao efetuar o login!", {
-          description: res.error,
-        });
-      } else {
-        router.push("/plataforma");
-
-        toast.success("Login efetuado com sucesso!");
-      }
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  }); */
-
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError =
@@ -89,15 +63,6 @@ export function UserLoginAuth() {
 
             toast.success("Login efetuado com sucesso!");
           }
-
-          /* if (data?.success) {
-            form.reset();
-            setSuccess(data.success);
-          }
-
-          if (data?.twoFactor) {
-            setShowTwoFactor(true);
-          } */
         })
         .catch(() =>
           toast.error("Ocorreu um erro ao efetuar o login!", {
