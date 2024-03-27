@@ -17,6 +17,8 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import ptBRLocale from "@fullcalendar/core/locales/pt-br";
 
+import dayjs from "dayjs";
+
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Select,
@@ -67,6 +69,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
 import { getAllEventsByUser } from "@/actions/event-calendar";
+import { getProfessional } from "@/actions/professional";
 
 import { NewSchedule } from "./new-schedule";
 
@@ -130,14 +133,33 @@ export function Schedule({ user }: { user: string }) {
       try {
         const response = await getAllEventsByUser({ user });
 
+        // console.log(dayjs("2024-03-26T13:00:00.000+00:00").format("HH:mm"));
+
         if (response) {
+          /* const transformedEvents = response.map(async (event) => {
+            const professional = await getProfessional({
+              professionalId: event.professional,
+            });
+
+            return {
+              id: event.id,
+              title: `${professional?.name} - ${event.typeOfService}`,
+              description: event.cellPhone,
+              start: dayjs(event.startTime).toDate(),
+              end: dayjs(event.endTime).toDate(),
+              backgroundColor: event.color,
+            };
+          });
+
+          setEvents(transformedEvents as []); */
+
           const transformedEvents = response.map((event: any) => ({
             id: event.id,
-            title: event.cellPhone,
+            title: `${event.professional} - ${event.typeOfService}`,
             description: event.description,
-            start: event.startTime,
-            end: event.endTime,
-            color: event.color,
+            start: dayjs(event.startTime).toDate(),
+            end: dayjs(event.endTime).toDate(),
+            backgroundColor: event.color,
           }));
 
           setEvents(transformedEvents as []);

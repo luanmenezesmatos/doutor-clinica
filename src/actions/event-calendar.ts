@@ -8,12 +8,14 @@ import { Patient } from "@prisma/client";
 
 import { getPatient } from "./patient";
 
+import dayjs from "dayjs";
+
 type CreateEventParams = {
   userId: string;
   event: {
     date: Date;
-    startTime: string;
-    endTime: string;
+    startTime: Date;
+    endTime: Date;
     typeOfService: string;
     schedule?: string;
     professional: string;
@@ -41,7 +43,7 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
   const colors = [
     {
       name: "sem-rotulo",
-      hex: "",
+      hex: "#000000",
     },
     {
       name: "rotulo-cor-amarelo",
@@ -56,12 +58,15 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
       },
     });
 
-    if (patient) {
+    /* startTime: dayjs(info?.startStr).subtract(3, "hours").toDate(),
+      endTime: dayjs(info?.startStr).subtract(3, "hours").toDate(), */
+
+    if (patient && patient.success) {
       const createdEvent = await prisma.event.create({
         data: {
           date: event.date,
-          startTime: event.startTime,
-          endTime: event.endTime,
+          startTime: dayjs(event.startTime).subtract(3, "hours").toDate(),
+          endTime: dayjs(event.endTime).subtract(3, "hours").toDate(),
           typeOfService: event.typeOfService,
           schedule: event.schedule,
           professional: event.professional,
@@ -98,6 +103,8 @@ export async function getAllEventsByUser({ user }: GetAllEventsParams) {
         userId: user.id,
       },
     });
+
+    console.log("events", events);
 
     return events;
   } catch (error) {

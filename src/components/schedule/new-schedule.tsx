@@ -111,6 +111,8 @@ import { getProfessionals } from "@/actions/professional";
 import { getClinicByUser } from "@/actions/clinic";
 import { getUserById } from "@/actions/user";
 
+import dayjs from "dayjs";
+
 interface EventInfo {
   start: Date | string;
   end: Date | string;
@@ -139,8 +141,8 @@ export function NewSchedule({
     resolver: zodResolver(appointmentFormSchema),
     defaultValues: {
       date: new Date(),
-      startTime: new Date(info?.startStr ?? new Date()),
-      endTime: new Date(info?.endStr ?? new Date()),
+      startTime: dayjs(info?.startStr).toDate(),
+      endTime: dayjs(info?.endStr).toDate(),
       typeOfService: "consulta",
       schedule: "",
       professional: "",
@@ -179,6 +181,8 @@ export function NewSchedule({
       values: { patient_select_option: patientSelectOption },
     });
 
+    console.log("patient", patient);
+
     if (patient && patient.success) {
       setPatientDisabledCellPhone(false);
       setPatientDisabledAgreementPlan(false);
@@ -197,8 +201,8 @@ export function NewSchedule({
         event: {
           ...values,
           date: values.date,
-          startTime: values.startTime.toISOString(),
-          endTime: values.endTime.toISOString(),
+          startTime: values.startTime,
+          endTime: values.endTime,
           professional: values.professional || "",
           patient: values.patient || "",
           cellPhone: values.cellPhone || "",
@@ -653,7 +657,7 @@ export function NewSchedule({
                           <FormLabel>Procedimento</FormLabel>
                           <FormControl
                             className={cn(
-                              "w-full",
+                              "w-[215px]",
                               !field.value && "text-muted-foreground"
                             )}
                           >

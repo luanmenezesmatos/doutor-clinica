@@ -15,8 +15,8 @@
   --fc-button-hover-border-color: #F9F9F9;
   --fc-button-active-bg-color: #E7E7E7;
   --fc-button-active-border-color: #E7E7E7;
-  --fc-event-border-color: #8FEFBC;
-  --fc-event-bg-color: #8FEFBC;
+  /* --fc-event-border-color: #8FEFBC;
+  --fc-event-bg-color: #8FEFBC; */
 }
 
 .fc .fc-toolbar-title {
