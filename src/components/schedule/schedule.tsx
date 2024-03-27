@@ -68,7 +68,10 @@ import { Calendar } from "@/components/ui/calendar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
-import { getAllEventsByUser } from "@/actions/event-calendar";
+import { SheduleSkeleton } from "./schedule-skeleton";
+
+import { getAllEventsByUser, getEvent } from "@/actions/event-calendar";
+import { getPatient } from "@/actions/patient";
 import { getProfessional } from "@/actions/professional";
 
 import { NewSchedule } from "./new-schedule";
@@ -80,25 +83,38 @@ interface EventInfo {
   endStr: string;
 }
 
-function renderEventContent(eventInfo: any) {
+async function renderEventContent(eventInfo: any) {
   const maxLength = 15;
 
-  const truncatedTitle =
+  /* const truncatedTitle =
     eventInfo.event.title.length > maxLength
       ? `${eventInfo.event.title.substring(0, maxLength)}...`
-      : eventInfo.event.title;
+      : eventInfo.event.title; */
+
+  const event = await getEvent({ eventId: eventInfo.event._def.publicId });
+  console.log("eventUserId", event?.userId);
+
+  const patient = await getPatient({
+    values: {
+      patient_select_option: event?.userId ?? "",
+    },
+  });
+
+  console.log("patient", patient);
 
   return (
     <div className="flex flex-wrap overflow-hidden px-2 py-1.5 rounded-sm w-full event-button transition-all">
       <AlertDialog>
-        <AlertDialogTrigger title="Event Details">
-          <p className="font-semibold text-xs overflow-hidden pr-1">
-            {truncatedTitle}
+        <AlertDialogTrigger>
+          <p className="font-inter font-semibold text-xs overflow-hidden pr-1">
+            {eventInfo.event.title}
           </p>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{eventInfo.event.title}</AlertDialogTitle>
+            <AlertDialogTitle>
+              {patient?.patient?.full_civil_name.toUpperCase()}
+            </AlertDialogTitle>
             <AlertDialogDescription>
               {eventInfo.event.extendedProps.description}
             </AlertDialogDescription>
@@ -112,13 +128,6 @@ function renderEventContent(eventInfo: any) {
   );
 }
 
-interface EventInfo {
-  start: Date | string;
-  end: Date | string;
-  startStr: string;
-  endStr: string;
-}
-
 export function Schedule({ user }: { user: string }) {
   const breadcrumbItems = [{ title: "Agenda", link: "" }];
 
@@ -128,6 +137,8 @@ export function Schedule({ user }: { user: string }) {
   const { openModal, setOpenModal, eventId } = useEventModal();
   const [eventInfo, setEventInfo] = useState<EventInfo | undefined>();
 
+  const [isCalendarLoading, setIsCalendarLoading] = useState(true);
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -136,33 +147,41 @@ export function Schedule({ user }: { user: string }) {
         // console.log(dayjs("2024-03-26T13:00:00.000+00:00").format("HH:mm"));
 
         if (response) {
-          /* const transformedEvents = response.map(async (event) => {
-            const professional = await getProfessional({
-              professionalId: event.professional,
-            });
+          const transformedEvents = await Promise.all(
+            response.map(async (event) => {
+              const professional = await getProfessional({
+                professionalId: event.professional,
+              });
 
-            return {
-              id: event.id,
-              title: `${professional?.name} - ${event.typeOfService}`,
-              description: event.cellPhone,
-              start: dayjs(event.startTime).toDate(),
-              end: dayjs(event.endTime).toDate(),
-              backgroundColor: event.color,
-            };
-          });
+              const eventTitle = `${dayjs(event.startTime).format("HH:mm")}  ${
+                professional?.name
+              }  /  ${event.agreementPlan || "Particular"}  /  ${
+                event.typeOfService
+              }`.toUpperCase();
 
-          setEvents(transformedEvents as []); */
-
-          const transformedEvents = response.map((event: any) => ({
-            id: event.id,
-            title: `${event.professional} - ${event.typeOfService}`,
-            description: event.description,
-            start: dayjs(event.startTime).toDate(),
-            end: dayjs(event.endTime).toDate(),
-            backgroundColor: event.color,
-          }));
+              return {
+                id: event.id,
+                title: eventTitle,
+                description: event.cellPhone,
+                start: dayjs(event.startTime).toDate(),
+                end: dayjs(event.endTime).toDate(),
+                backgroundColor: event.color,
+              };
+            })
+          );
 
           setEvents(transformedEvents as []);
+
+          /* const transformedEvents = response.map((event: any) => ({
+            id: event.id,
+            title: `${event.professional} - ${event.typeOfService}`,
+            description: event.cellPhone,
+            start: dayjs(event.startTime).toDate(),
+            end: dayjs(event.endTime).toDate(),
+            color: event.color,
+          }));
+
+          setEvents(transformedEvents as []); */
         }
       } catch (error) {
         console.log("Error fetching events", error);
@@ -171,6 +190,10 @@ export function Schedule({ user }: { user: string }) {
 
     fetchEvents();
   }, [user]);
+
+  setTimeout(() => {
+    setIsCalendarLoading(false);
+  }, 200);
 
   return (
     <>
@@ -236,47 +259,62 @@ export function Schedule({ user }: { user: string }) {
                 />
               </div>
               <div className="flex-1">
-                <FullCalendar
-                  timeZone="America/Sao_Paulo"
-                  plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                  initialView="timeGridDay"
-                  headerToolbar={{
-                    left: "prev next today",
-                    center: "title",
-                    right: "dayGridMonth,timeGridWeek,timeGridDay",
-                  }}
-                  views={{
-                    timeGridWeek: {
-                      titleFormat: {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      },
-                    },
-                  }}
-                  eventTimeFormat={{
-                    hour: "numeric",
-                    minute: "2-digit",
-                    meridiem: false,
-                  }}
-                  events={events}
-                  select={function (info) {
-                    // alert("selected " + info.startStr + " to " + info.endStr);
+                {isCalendarLoading ? (
+                  <SheduleSkeleton />
+                ) : (
+                  <>
+                    <FullCalendar
+                      timeZone="America/Sao_Paulo"
+                      plugins={[
+                        dayGridPlugin,
+                        timeGridPlugin,
+                        interactionPlugin,
+                      ]}
+                      initialView="timeGridDay"
+                      headerToolbar={{
+                        left: "prev next today",
+                        center: "title",
+                        right: "dayGridMonth,timeGridWeek,timeGridDay",
+                      }}
+                      views={{
+                        timeGridWeek: {
+                          titleFormat: {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          },
+                        },
+                      }}
+                      // adicionar classe de emoji no evento
+                      eventClassNames={function (arg) {
+                        return "bg-white";
+                      }}
+                      eventTimeFormat={{
+                        hour: "numeric",
+                        minute: "2-digit",
+                        meridiem: false,
+                      }}
+                      events={events}
+                      select={function (info) {
+                        // alert("selected " + info.startStr + " to " + info.endStr);
 
-                    setEventInfo(info);
-                    setOpenModal(true);
-                  }}
-                  eventContent={renderEventContent}
-                  slotDuration={"00:40:00"}
-                  slotLabelFormat={{ hour: "2-digit", minute: "2-digit" }}
-                  slotMinTime={"08:00:00"}
-                  slotMaxTime={"18:00:00"}
-                  titleRangeSeparator=" até "
-                  dayHeaderClassNames={"font-medium py-2"}
-                  nowIndicator={true}
-                  selectable={true}
-                  locale={ptBRLocale}
-                />
+                        setEventInfo(info);
+                        setOpenModal(true);
+                      }}
+                      eventBorderColor="transparent"
+                      eventContent={renderEventContent}
+                      slotDuration={"00:40:00"}
+                      slotLabelFormat={{ hour: "2-digit", minute: "2-digit" }}
+                      slotMinTime={"08:00:00"}
+                      slotMaxTime={"18:00:00"}
+                      titleRangeSeparator=" até "
+                      dayHeaderClassNames={"font-medium py-2"}
+                      nowIndicator={true}
+                      selectable={true}
+                      locale={ptBRLocale}
+                    />
+                  </>
+                )}
 
                 <Credenza open={openModal} onOpenChange={setOpenModal}>
                   <CredenzaContent

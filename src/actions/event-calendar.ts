@@ -43,11 +43,35 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
   const colors = [
     {
       name: "sem-rotulo",
-      hex: "#000000",
+      hex: "transparent",
     },
     {
       name: "rotulo-cor-amarelo",
       hex: "#F6BF26",
+    },
+    {
+      name: "rotulo-cor-rosa",
+      hex: "#E67C73",
+    },
+    {
+      name: "rotulo-cor-cinza",
+      hex: "#616161",
+    },
+    {
+      name: "rotulo-cor-violeta",
+      hex: "#A1AEF2",
+    },
+    {
+      name: "rotulo-cor-verde-escuro",
+      hex: "#2E5440",
+    },
+    {
+      name: "rotulo-cor-laranja",
+      hex: "#FF6433",
+    },
+    {
+      name: "rotulo-cor-violeta",
+      hex: "#8E24AA",
     },
   ];
 
@@ -80,9 +104,7 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
           procedure: event.procedure,
           observations: event.observations,
           appointmentStatus: event.appointmentStatus || "",
-          color:
-            colors.find((color) => color.name === event.color)?.hex ||
-            "sem-rotulo",
+          color: colors.find((color) => color.name === event.color)?.hex ?? "",
           userId,
         },
       });
@@ -107,6 +129,20 @@ export async function getAllEventsByUser({ user }: GetAllEventsParams) {
     console.log("events", events);
 
     return events;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getEvent({ eventId }: { eventId: string }) {
+  try {
+    const event = await prisma.event.findUnique({
+      where: {
+        id: eventId,
+      },
+    });
+
+    return event;
   } catch (error) {
     console.error(error);
   }

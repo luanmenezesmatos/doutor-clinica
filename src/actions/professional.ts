@@ -12,7 +12,7 @@ export async function getProfessional({
       throw new Error("professionalId is required");
     }
 
-    const professional = await prisma.doctor.findUnique({
+    const professional = await prisma.user.findUnique({
       where: {
         id: professionalId,
       },
