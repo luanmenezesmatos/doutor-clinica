@@ -49,6 +49,12 @@ export async function createPatient(
       },
     });
 
+    const clinic = await prisma.clinic.findFirst({
+      where: {
+        userId: user?.id,
+      },
+    });
+
     if (patient) {
       return {
         success: false,
@@ -135,7 +141,7 @@ export async function createPatient(
         updatedAt: new Date(),
         clinic: {
           connect: {
-            id: "65e1fda984f12d594ad2d1f6",
+            id: clinic?.id || "",
           },
         },
       },
