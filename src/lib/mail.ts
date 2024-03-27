@@ -6,7 +6,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `${process.env.NEXT_PUBLIC_APP_URL}/verificar-email?token=${token}`;
 
   await resend.emails.send({
-    from: "Doutor Clínica <onboarding@resend.dev>",
+    from: "Doutor Clínica <naoresponda@moddedco.com.br>",
     to: email,
     subject: "Confirme seu endereço de e-mail",
     html: `
