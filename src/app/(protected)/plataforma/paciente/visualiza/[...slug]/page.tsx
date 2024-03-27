@@ -381,16 +381,16 @@ export default async function PatientPage({
                 </div>
               </TabsContent>
               <TabsContent value="next-appointments">
-                Change your password here.
+                Componente em desenvolvimento.
               </TabsContent>
               <TabsContent value="waiting-list">
-                Change your password here.
+                Componente em desenvolvimento.
               </TabsContent>
               <TabsContent value="attendance">
-                Change your password here.
+                Componente em desenvolvimento.
               </TabsContent>
               <TabsContent value="last-prescriptions">
-                Change your password here.
+                Componente em desenvolvimento.
               </TabsContent>
             </div>
           </Card>
